@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>活动详情 | 校聚活动平台</title>
+    <link rel="icon" type="image/png" href="../../images/N@_E``IY@4_UBX7HDR9Q_V5.jpg" sizes="32x32">
+    <link rel="stylesheet" href="activityDetails.css">
+</head>
+<body>
+    <div>
+        <nav>
+            <ul id="nav">
+                <li class="slide1"></li>
+                <li class="slide2"></li>
+                <li><a href="../../homepage/homepage.html">首页</a></li>
+                <li><a href="../../activity/activitySquare/activity.html">活动广场</a></li>
+                <li><a href="../../activity/activityManagement/activityManagement.html">活动管理</a></li>
+                <li><a href="../../Message/message.html">留言板</a></li>
+                <li><a href="../../PHP/personal page.html">个人中心</a></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="mainbody-area">
+        <div class="activityDetails">
+            <img id="coverImage" src="" alt="活动封面" class="cover-image">
+            <div class="details-content">
+                <h2 id="activityName"></h2>
+                <p><strong>活动ID:</strong> <span id="activityid"></span></p>
+                <p><strong>发布人:</strong> <span id="publisher"></span></p>
+                <p><strong>开始时间:</strong> <span id="eventTime"></span></p>
+                <p><strong>结束时间:</strong> <span id="finishTime"></span></p>
+                <p><strong>人数:</strong> <span id="peopleNum"></span>/<span id="maxParticipants"></span></p>
+                <p><strong>地点:</strong> <span id="location"></span></p>
+                <p><strong>类型:</strong> <span id="activityType"></span></p>
+                <p><strong>活动状态:</strong> <span id="activityStatus"></span></p>
+                <p><strong>联系方式:</strong> <span id="contact"></span></p>
+                <p><strong>报名要求:</strong> <span id="registrationRequirements"></span></p>
+                
+                <div class="register-section" id="registerSection">
+                    <input type="text" id="remark" placeholder="请填写简单的备注, 建议30字以内" />
+                    <button class="register-button" id="registerButton"><strong>报名</strong></button>
+                    
+                </div>
+                <p id="statusMessage" style="display: none; color: red; font-weight: bold; font-size: 20px;"></p> <!-- 用于显示状态信息 -->
+
+                <div class="rate-section">
+                    <p><strong>发布人评分:</strong> <span id="rating"></span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="more-detail">
+            <h1 style="text-align: center;">其他说明</h1>
+            <p id="additionalInfo"></p>
+        </div>
+
+        <button class="back-to-top" id="backToTop">返回顶部</button>
+		 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            const backToTopButton = document.getElementById('backToTop');
+
+            window.onscroll = function() {
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    backToTopButton.style.display = 'block'; // 显示按钮
+                } else {
+                    backToTopButton.style.display = 'none'; // 隐藏按钮
+                }
+            };
+
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth' // 平滑滚动
+                });
+            });
+            let savedUserId;
+            // 读取本地存储的用户 ID
+            document.addEventListener('DOMContentLoaded', (event) => {
+                savedUserId = localStorage.getItem('headid'); // 在这里读取
+                if (savedUserId) {
+                    console.log(`欢迎回来，用户ID: ${savedUserId}`);
+                } else {
+                    console.log('用户未登录或 session 已过期');
+                }
+            });
+
+            // 获取活动ID并加载活动详细信息
+            function loadActivityDetails() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const activityId = urlParams.get('activityid'); // 仍然作为字符串处理
+
+
+                console.log(`加载活动 ID: ${activityId}`);
+
+                if (activityId !==null) 
+                {
+                    // 首先请求活动详细信息
+                    fetch(`http://192.168.1.43:8080/activities/showactivity/${activityId}`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('网络响应错误');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.code === 200) {
+                                const activity = data.data; // 获取活动的具体信息
+
+                                // 更新界面内容
+                                document.getElementById('activityid').innerText =activity.activityid;
+                                document.getElementById('coverImage').src = activity.profileimageurl || 'default_image.png'; // 使用活动封面图片
+                                document.getElementById('activityName').innerText = activity.activityname || '未命名活动';            
+                                document.getElementById('eventTime').innerText = formatDate(activity.timeproceed1) || '未设置'; // 格式化时间
+                                document.getElementById('finishTime').innerText = formatDate(activity.timeproceed2) || '未设置'; // 格式化时间
+                                document.getElementById('maxParticipants').innerText = activity.maxceiling ? `${activity.maxceiling}人` : '未设置';
+                                document.getElementById('location').innerText = activity.location || '未设置';
+                                document.getElementById('activityType').innerText = activity.type || '未指定类型';
+                                document.getElementById('registrationRequirements').innerText = activity.activityrequest || '未指定要求';
+                                document.getElementById('activityStatus').innerText = activity.status || '状态未知';
+                                document.getElementById('additionalInfo').innerText = activity.others || '无其他说明';
+
+                                // 判断活动状态
+                                const activityStatus = activity.status; // 获取活动状态
+                                const registerSection = document.getElementById('registerSection');
+                                const statusMessage = document.getElementById('statusMessage');
+
+                                if (activityStatus === '审核中' || activityStatus === '已结束') {
+                                    // 隐藏报名部分，显示状态消息
+                                    registerSection.style.display = 'none';
+                                    statusMessage.innerText = activityStatus === '审核中' 
+                                        ? '该活动还在审核中。' 
+                                        : '该活动已结束。';
+                                    statusMessage.style.display = 'block';  // 显示状态消息
+                                } else {
+                                    // 显示报名部分，隐藏状态消息
+                                    registerSection.style.display = 'block';
+                                    statusMessage.style.display = 'none';
+                                }
+
+
+                                // 获取发布人的声誉信息
+                                return fetch(`http://192.168.1.43:8080/auth/showuser/${activity.headid}`);
+                            } 
+                            else {
+                                console.error('获取活动详细信息失败:', data.message);
+                                console.error('获取活动详细信息失败:', data.code);
+                                alert('加载活动详情失败，请重试。');
+                            }
+                        })
+                        .then(response => {
+                            if (response) {
+                                if (!response.ok) {
+                                    throw new Error('网络响应错误');
+                                }
+                                return response.json();
+                            }
+                        })
+                        .then(userData => {
+                            if (userData && userData.code === 200) {
+                                const reputation = userData.data.reputation || '暂无评分';
+                                const username = userData.data.username || '未知发布人';
+                                const contact = userData.data.pnumber || '未提供';
+                                document.getElementById('rating').innerText = reputation; // 更新声誉信息
+                                document.getElementById('contact').innerText =  contact || '未提供';
+                                document.getElementById('publisher').innerText = username || '未知发布人';
+                            } else {
+                                console.error('获取用户声誉和联系方式失败:', userData.message);
+                                document.getElementById('rating').innerText = '暂无评分'; // 默认值或错误信息
+                            }
+                        })
+                        .catch(error => {
+                            console.error('获取活动详情或用户声誉时发生错误:', error);
+                            alert('网络错误，请稍后再试。');
+                        });
+
+
+
+                        fetch(`http://192.168.1.43:8080/event/${activityId}/count`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('网络响应错误');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.code === 200) {
+                                const peoplenum = data.data; // 获取活动的具体信息
+
+                                // 更新界面内容
+                                document.getElementById('peopleNum').innerText =peoplenum;
+                    
+                            } 
+                            else {
+                                console.error('获取活动详细信息失败:', data.message);
+                                console.error('获取活动详细信息失败:', data.code);
+                                alert('加载活动详情失败，请重试。');
+                            }
+                        })
+                        
+
+
+
+
+
+
+
+
+                } 
+                else {
+                    alert('活动ID未找到。');
+                }
+
+
+
+
+
+
+
+
+
+
+
+            }
+                
+            // 在点击报名时提交数据
+            // 在点击报名时提交数据
+document.getElementById('registerButton').addEventListener('click', function() {
+    // 获取 URL 查询参数
+    const urlParams = new URLSearchParams(window.location.search);
+    const activityId = urlParams.get('activityid'); // 获取活动ID
+    const remark = document.getElementById('remark').value.trim(); // 获取并修整备注内容
+
+    console.log('活动ID:', activityId);
+    console.log('用户ID:', savedUserId);
+    console.log('备注:', remark);
+
+    // 检查用户是否登录
+    if (!savedUserId) {
+        alert('您未登录，请先登录！');
+        return;
+    }
+
+    // 检查活动ID和备注内容是否存在
+    if (!activityId) {
+        alert('活动ID未找到。');
+        return;
+    }
+    if (!remark) {
+        alert('请填写备注。');
+        return;
+    }
+
+    // 使用 URLSearchParams 构建请求参数
+    const params = new URLSearchParams();
+    params.append('userid', savedUserId);
+    params.append('activityid', activityId);
+    params.append('reason', remark); // 注意这里参数名是 'play'
+
+    // 发送 POST 请求
+    fetch('http://192.168.1.43:8080/event/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded' // 设置请求头
+        },
+        body: params.toString() // 将参数转换为字符串
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('网络响应错误，状态码: ' + response.status);
+        }
+        return response.json(); // 解析 JSON 响应
+    })
+    .then(data => {
+        if (data.code === 200) {
+            alert('报名成功！'); // 报名成功提示
+        } else {
+            alert(`报名失败: ${data.message}`); // 报名失败提示
+        }
+    })
+    .catch(error => {
+        console.error('报名时发生错误:', error);
+        alert('网络错误，请稍后再试。'); // 网络错误提示
+    });
+});
+
+
+
+
+
+            // 时间格式化函数
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                if (isNaN(date)) {
+                    return '未设置'; // 如果日期无效，返回“未设置”
+                }
+                
+                // 格式化为 YYYY-MM-DD HH:MM
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从 0 开始，所以需要加 1
+                const day = date.getDate().toString().padStart(2, '0');
+                const hours = date.getHours().toString().padStart(2, '0');
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+
+                return `${year}-${month}-${day} ${hours}:${minutes}`; // 返回格式化的字符串
+            }
+
+            // 页面加载时调用函数
+            loadActivityDetails();
+$("#nav a").on("click", function () {
+            var position = $(this).parent().position();
+            var width = $(this).parent().width();
+            $("#nav .slide1").css({ opacity: 1, left: +position.left, width: width });
+        });
+        $("#nav a").on("mouseover", function () {
+            var position = $(this).parent().position();
+            var width = $(this).parent().width();
+            $("#nav .slide2").css({ opacity: 1, left: +position.left, width: width }).addClass("squeeze");
+        });
+        $("#nav a").on("mouseout", function () {
+            $("#nav .slide2").css({ opacity: 0 }).removeClass("squeeze");
+        });
+        var currentWidth = $("#nav li:nth-of-type(5) a").parent("li").width();
+        var current = $("li:nth-of-type(5) a").position();
+        $("#nav .slide1").css({ left: +current.left, width: currentWidth });
+            
+        </script>
+    </div>
+</body>
+</html>

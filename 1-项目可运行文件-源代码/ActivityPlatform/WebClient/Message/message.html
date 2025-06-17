@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>留言板 - 校聚</title>
+    <link rel="icon" type="image/png" href="../images/N@_E%60%60IY@4_UBX7HDR9Q_V5.jpg" sizes="32x32">
+    <link rel="stylesheet" href="css/style.css"> <!-- 引入 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            background-image: url("../images/wallhaven-nz9k8y.jpg");
+            
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        }
+
+        #nav {
+            position: relative;
+            border: none;
+            border-radius: 10em;
+            display: flex;
+            list-style: none;
+            background: linear-gradient(45deg, #f6d365, #fda085);
+            box-shadow: 20px 40px 40px #00000033;
+            padding: 10px;
+        }
+
+        #nav li a {
+            position: relative;
+            padding: 15px 50px;
+            font: 500 24px '微软雅黑';
+            border: none;
+            outline: none;
+            color: rgb(255, 255, 255);
+            display: inline-block;
+            text-decoration: none;
+            z-index: 3;
+        }
+
+        .slide1,
+        .slide2 {
+            position: absolute;
+            display: inline-block;
+            height: 60px;
+            border-radius: 10em;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
+        }
+
+        .slide1 {
+            background-color: rgb(250, 236, 125);
+            z-index: 2;
+        }
+
+        .slide2 {
+            opacity: 0;
+            background-color: rgba(255, 241, 187, 0.5);
+            z-index: 1;
+            box-shadow: 0 0 20px #ffffffaa inset;
+        }
+
+        .squeeze {
+            transform: scale(0.9);
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.85);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+            position: relative;
+			background: rgba(255, 255, 255, 0.3);
+			backdrop-filter: blur(5px);
+        }
+
+        .messages-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .messages-header h2 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .message-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .message-item,
+        .reply-item {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            transition: box-shadow 0.3s, transform 0.3s;
+           background: rgba(255, 255, 255, 0.3);
+           backdrop-filter: blur(5px);
+        }
+
+        .message-item:hover,
+        .reply-item:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+        }
+
+        .message-content,
+        .reply-content {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .nickname,
+        .reply-nickname {
+            font-size: 18px;
+            color: #007BFF;
+            font-weight: bold;
+        }
+
+        .message-text,
+        .reply-text {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .timestamp {
+            font-size: 12px;
+            color: #999;
+            position: absolute;
+            bottom: 10px;
+            right: 20px;
+        }
+
+        .reply-list {
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+
+        .message-input-container {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .message-input-container textarea {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+            min-height: 50px;
+			border-radius: 20px; /* 圆滑边框 */
+			background-color: transparent; /* 雾面玻璃效果 */
+			backdrop-filter: blur(1px);
+        }
+
+        button {
+            padding: 15px 25px;
+            border: unset;
+            border-radius: 15px;
+            color: #212121;
+            z-index: 1;
+            background: #e8e8e8;
+            position: relative;
+            font-weight: 1000;
+            font-size: 17px;
+            -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+            box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+            transition: all 250ms;
+            overflow: hidden;
+		
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            border-radius: 15px;
+            background-color: #212121;
+            z-index: -1;
+            -webkit-box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+            box-shadow: 4px 8px 19px -3px rgba(0,0,0,0.27);
+            transition: all 250ms;
+        }
+
+        button:hover {
+            color: #e8e8e8;
+        }
+
+        button:hover::before {
+            width: 100%;
+        }
+
+        .back-to-top {
+            position: fixed; /* 固定定位 */
+            bottom: 20px; /* 距离底部20px */
+            right: 20px; /* 距离右侧20px */
+            border: none; /* 无边框 */
+            padding: 10px 15px; /* 内边距 */
+            border-radius: 5px; /* 圆角效果 */
+            cursor: pointer; /* 鼠标悬浮出现手型 */
+            display: none; /* 默认隐藏按钮 */
+            z-index: 1000; /* 确保按钮在最上层 */
+            font-weight: bold;
+            width: 100px;
+            height: 50px;
+            font-size: medium;
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+        }
+        
+        .back-to-top:hover {
+            background-color: #ccc; /* 悬浮时改变按钮颜色 */
+        }
+        
+        /* 调整按钮大小 */
+        .button.small {
+            padding: 7.5px 12.5px; /* 原来的 1/2 尺寸 */
+            font-size: 12px; /* 调整字体大小 */
+            font-weight: normal;
+        }
+        
+        /* 保持回复和发布帖子按钮的原始大小 */
+        .send-button {
+            background-color: #48C774;
+        }
+        
+        .send-button::before {
+            background-color: #23a644; /* 悬浮颜色 */
+        }
+        
+        .comment-button {
+            background-color: #0080ff;
+        }
+        
+        .comment-button::before {
+            background-color: #1b59ca; /* 悬浮颜色 */
+        }
+        
+        .reply-button {
+            background-color: #808080;
+        }
+        
+        .reply-button::before {
+            background-color: #222222; /* 悬浮颜色 */
+        }
+        
+        .delete-button {
+            background-color: #FF4C4C;
+        }
+        
+        .delete-button::before {
+            background-color: #ea1d1d; /* 悬浮颜色 */
+        }
+        
+        .reply-input-container button {
+            margin-left: 10px;
+            padding: 10px 20px;
+            background-color: #48C774;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .reply-input-container button:hover {
+            background-color: #3EBF65;
+        }
+        .reply-input-container {
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .reply-input-container textarea {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+			border-radius: 20px; /* 圆滑边框 */
+			background-color: transparent; /* 雾面玻璃效果 */
+			backdrop-filter: blur(1px);
+			
+        }
+
+
+    </style>
+</head>
+<body>
+    <nav>
+        <ul id="nav">
+            <li class="slide1"></li>
+            <li class="slide2"></li>
+            <li><a href="../homepage/homepage.html">首页</a></li>
+            <li><a href="../activity/activitySquare/activity.html">活动广场</a></li>
+            <li><a href="../activity/activityManagement/activityManagement.html">活动管理</a></li>
+            <li><a href="../Message/message.html">留言板</a></li>
+            <li><a href="../PHP/personal page.html">个人中心</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+       
+        <ul class="message-list" id="messageList">
+            <!-- 这里会动态添加消息项 -->
+        </ul>
+
+        <div class="message-input-container" id="postMessageContainer">
+            <textarea id="messageInput" placeholder="请输入你的留言..."></textarea>
+            <button class="send-button" onclick="sendMessage()">发布帖子</button>
+        </div>
+    </div>
+
+    <button class="back-to-top" onclick="scrollToTop()">回到顶部</button>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        let loggedInUserId;
+        let loggedInUserNickname;
+        let loggedInUserPermission = 0;
+        let userHasPost = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loggedInUserId = localStorage.getItem('headid');
+            loggedInUserNickname = localStorage.getItem('nickname'); // 假设用户昵称保存在这里
+            if (loggedInUserId) {
+                console.log(`欢迎回来，用户ID: ${loggedInUserId}`);
+                console.log(`欢迎回来，用户昵称: ${loggedInUserNickname}`);
+                fetchUserPermission(loggedInUserId);
+                fetchMessages();
+            } else {
+                console.log('用户未登录或 session 已过期');
+            }
+        });
+
+        function fetchMessages() {
+            fetch('http://192.168.1.43:8080/messages/posts')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Received data:', data);
+
+                    if (data && Array.isArray(data.data)) {
+                        const messageList = document.getElementById('messageList');
+                        messageList.innerHTML = ''; // 清空旧的内容
+                        data.data.forEach(post => {
+                            if (post.publisherid == loggedInUserId) {
+                                userHasPost = true;
+                            }
+
+                            const newMessageItem = document.createElement('li');
+                            newMessageItem.className = 'message-item';
+                            newMessageItem.innerHTML = `
+                                <div class="message-content">
+                                    <p class="nickname">${post.publishnickname}：</p>
+                                    <p class="message-text">${post.content}</p>
+                                    <p class="timestamp">${new Date(post.timestamp).toLocaleString()}</p>
+                                    <button class="comment-button" onclick="toggleReplyInput(${post.id}, this)">评论</button>
+                                    <div class="reply-input-container" id="replyInputContainer-${post.id}" style="display: none;">
+                                        <textarea id="replyInput-${post.id}" placeholder="请输入回复..."></textarea>
+                                        <button class="send-button" onclick="sendReply(${post.id}, ${post.publisherid}, '${post.publishnickname}')">回复</button>
+                                    </div>
+                                    <button class="reply-button" onclick="toggleReplies(${post.publisherid}, ${post.id}, this)" id="toggleRepliesButton-${post.id}">查看回复</button>
+                                    <ul class="reply-list" id="replies-${post.id}">
+                                        <!-- 这里会动态添加回复 -->
+                                    </ul>
+                                    ${(post.publisherid == loggedInUserId || loggedInUserPermission == 1) ? `<button class="delete-button small" onclick="deletePost(${post.id}, ${post.publisherid})">删除</button>` : ''}
+                                </div>
+                            `;
+                            messageList.appendChild(newMessageItem);
+                        });
+
+                        // 如果用户已经发布了一条帖子，隐藏发布帖子输入框
+                        if (userHasPost) {
+                            document.getElementById('postMessageContainer').style.display = 'none';
+                        } else {
+                            document.getElementById('postMessageContainer').style.display = 'flex';
+                        }
+                    } else {
+                        console.error('Expected an array but received:', typeof data, data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching messages:', error);
+                });
+        }
+
+        function fetchReplies(publisherId, postId) {
+            fetch(`http://192.168.1.43:8080/messages/replies/${publisherId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(`Received replies for publisher ${publisherId}:`, data);
+
+                    if (data && Array.isArray(data.data)) {
+                        const replyList = document.getElementById(`replies-${postId}`);
+                        if (replyList) {
+                            replyList.innerHTML = ''; // 清空旧的回复内容
+                            data.data.forEach(reply => {
+                                // 打印每个回复对象详细信息
+                                console.log('Reply object:', reply);
+                                const newReplyItem = document.createElement('li');
+                                newReplyItem.className = 'reply-item';
+                                newReplyItem.innerHTML = `
+                                    <div class="reply-content">
+                                        <p class="reply-nickname">${reply.requestnickname}：</p>
+                                        <p class="reply-text">${reply.content}</p>
+                                        <p class="timestamp">${new Date(reply.timestamp).toLocaleString()}</p>
+                                    </div>
+                                `;
+                                replyList.appendChild(newReplyItem);
+                            });
+                        } else {
+                            console.error(`No reply list found for post ID: ${postId}`);
+                        }
+                    } else {
+                        console.error('Expected an array but received:', typeof data, data);
+                    }
+                })
+                .catch(error => {
+                    console.error(`Error fetching replies for post ${publisherId}:`, error);
+                });
+        }
+
+        function fetchUserPermission(userId) {
+            fetch(`http://192.168.1.43:8080/auth/showuser/${userId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log('User permission data:', data);
+                    if (data && data.data) {
+                        loggedInUserPermission = data.data.permission;
+                        loggedInUserNickname = data.data.nickname;  // 获取用户昵称并赋值
+                        console.log('User permission:', loggedInUserPermission);  // 打印权限值
+                        console.log('User nickname:', loggedInUserNickname);  // 打印用户昵称
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching user permission:', error);
+                });
+        }
+
+        function deletePost(messageId, publisherId) {
+            const url = `http://192.168.1.43:8080/messages/delete/${messageId}?userId=${publisherId}&userPermission=${loggedInUserPermission}`;
+
+            console.log('Attempting to delete post with the following details:');
+            console.log('Message ID:', messageId);
+            console.log('Publisher ID:', publisherId);
+            console.log('Logged in User ID:', loggedInUserId);
+            console.log('User Permission:', loggedInUserPermission);
+            console.log('Request URL:', url);  // 打印请求URL
+
+            fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error('删除请求失败');
+                    }
+                })
+                .then(data => {
+                    console.log('Delete response:', data);
+                    if (data.code === 200) {
+                        alert('删除成功');
+                        document.location.reload();
+                    } else {
+                        alert('删除失败: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error deleting post:', error);
+                    alert('删除请求失败');
+                });
+        }
+
+        function sendMessage() {
+            const messageInput = document.getElementById('messageInput');
+            const messageText = messageInput.value.trim();
+            if (messageText) {
+                const postData = {
+                    publisherid: loggedInUserId,
+                    publishnickname: loggedInUserNickname,
+                    content: messageText,
+                    requestid: "" // 发帖时 requestid 为空
+                };
+
+                fetch('http://192.168.1.43:8080/messages/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(postData)
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Post message response:', data);
+                    if (data.code === 200) {
+                        alert('发布成功');
+                        document.location.reload();
+                    } else {
+                        alert('发布失败: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error posting message:', error);
+                    alert('发布请求失败');
+                });
+            } else {
+                alert('请填写帖子内容');
+            }
+        }
+
+        function toggleReplyInput(messageId, btn) {
+            const replyInputContainer = document.getElementById(`replyInputContainer-${messageId}`);
+            if (replyInputContainer.style.display === 'none' || replyInputContainer.style.display === '') {
+                replyInputContainer.style.display = 'flex';
+                btn.textContent = '收回评论';
+            } else {
+                replyInputContainer.style.display = 'none';
+                btn.textContent = '评论';
+            }
+        }
+
+        function toggleReplies(publisherId, postId, btn) {
+            const replyList = document.getElementById(`replies-${postId}`);
+            if (replyList.style.display === 'none' || replyList.style.display === '') {
+                fetchReplies(publisherId, postId);
+                replyList.style.display = 'block';
+                btn.textContent = '折叠回复';
+            } else {
+                replyList.style.display = 'none';
+                btn.textContent = '查看回复';
+            }
+        }
+
+        function sendReply(messageId, publisherId, publishNickname) {
+            const replyInput = document.getElementById(`replyInput-${messageId}`);
+            const replyText = replyInput.value.trim();
+            if (!replyText) {
+                alert('请填写回复内容');
+                return;
+            }
+
+            const replyData = {
+                publisherid: publisherId,
+                requestid: loggedInUserId,
+                content: replyText,
+                publishnickname: publishNickname,
+                requestnickname: loggedInUserNickname
+            };
+
+            fetch('http://192.168.1.43:8080/messages/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(replyData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('回复请求失败');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Reply message response:', data);
+                if (data.code === 200) {
+                    alert('回复成功');
+                    document.location.reload();
+                } else {
+                    alert('回复失败: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error sending reply:', error);
+                alert('回复请求失败');
+            });
+        }
+
+        // 导航栏滑动条初始化
+        $(document).ready(function () {
+            $("#nav a").on("click", function (e) {
+                e.preventDefault();
+                var position = $(this).parent().position();
+                var width = $(this).parent().width();
+                $("#nav .slide1").css({ opacity: 1, left: +position.left, width: width });
+
+                // 模拟页面跳转
+                setTimeout(() => {
+                    window.location.href = $(this).attr('href');
+                }, 500);
+            });
+
+            $("#nav a").on("mouseover", function () {
+                var position = $(this).parent().position();
+                var width = $(this).parent().width();
+                $("#nav .slide2").css({ opacity: 1, left: +position.left, width: width }).addClass("squeeze");
+            });
+
+            $("#nav a").on("mouseout", function () {
+                $("#nav .slide2").css({ opacity: 0 }).removeClass("squeeze");
+            });
+
+            var currentWidth = $("#nav li:nth-of-type(6) a").parent("li").width();
+            var current = $("#nav li:nth-of-type(6) a").position();
+            $("#nav .slide1").css({ left: +current.left, width: currentWidth });
+        });
+
+        // 回到顶部按钮的显示和隐藏
+        window.onscroll = function() {
+            const backToTopButton = document.querySelector(".back-to-top");
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                backToTopButton.style.display = "block";
+            } else {
+                backToTopButton.style.display = "none";
+            }
+        };
+
+        // 回到顶部功能
+        function scrollToTop() {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        }
+    </script>
+</body>
+
+</html>

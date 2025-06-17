@@ -1,0 +1,121 @@
+{
+	"pages": [
+	{
+		"path" : "pages/login/login",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/register/register",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/home/home",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/personalpage/personalpage",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/activity/activity",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/manage/manage",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/message/message",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/activitydetail/activitydetail",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "pages/activity-release/activity-release",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	},
+	{
+		"path" : "HomePage/111/111",
+		"style" : 
+		{
+			"navigationBarTitleText" : ""
+		}
+	}
+],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8",
+		"app-plus": {
+			"background": "#efeff4"
+		}
+	},
+	"tabBar": {
+		"color": "#8a8a8a",  // 未选中状态的颜色
+		    "selectedColor": "#007aff",  // 选中状态的颜色
+		    "backgroundColor": "#fff3e0",
+		    "borderStyle": "black",
+		    "list": [
+		      {
+		        "pagePath": "pages/home/home",
+		        "text": "首页",
+		        "iconPath": "/static/home.png",  // 未选中状态图标路径
+		        "selectedIconPath": "/static/homefill.png"  // 选中状态图标路径
+		      },
+		      {
+		        "pagePath": "pages/activity/activity",
+		        "text": "活动",
+		        "iconPath": "/static/huodongxiangqu_1.png",
+		        "selectedIconPath": "/static/huodongxiangqu.png"
+		      },
+		      {
+		        "pagePath": "pages/manage/manage",
+		        "text": "管理",
+		        "iconPath": "/static/circle.png",
+		        "selectedIconPath": "/static/circlefill.png"
+		      },
+		      {
+		        "pagePath": "pages/message/message",
+		        "text": "留言",
+		        "iconPath": "/static/notice.png",
+		        "selectedIconPath": "/static/noticefill.png"
+		      },
+		      {
+		        "pagePath": "pages/personalpage/personalpage",
+		        "text": "我的",
+		        "iconPath": "/static/friend.png",
+		        "selectedIconPath": "/static/friendfill.png"
+		      }
+		    ]
+	}
+}

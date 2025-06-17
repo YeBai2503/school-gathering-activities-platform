@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校聚活动平台数据展示</title>
+    <link rel="icon" type="image/jpg" href="logo.jpg" sizes="32x32">
+    <link rel="stylesheet" href="BigScreen.css">
+    
+</head>
+<body>
+    <div class="dashboard">
+        
+        <div class="panel">
+            <h2>用户活动发布数排行</h2>
+            <canvas id="rankingChart"></canvas>
+        </div>
+
+        <div class="big">
+            <div class="total-title">
+                <span class="totaltitle">用户总量</span>
+                
+                <span class="totaltitle" >活动总量</span>
+              
+            </div>
+            <div class="total">
+                <div class="to">
+                    <span class="total-people"></span>
+                    <span style="margin-bottom: 10px;">人</span>
+                </div>
+                <div class="to"></span>
+                    <span class="total-number" ></span>
+                    <span>项</span>
+                </div>
+            </div>
+            <div class="categories">
+                <div>体育类<span class="category-number" id="sports" style="font-size: larger;"></span><span>项</span></div>
+                <div>学术类<span class="category-number" id="science" style="font-size: larger;"></span><span>项</span></div>
+                <div>艺术类<span class="category-number" id="art" style="font-size: larger;"></span><span>项</span></div>
+                <div>桌游类<span class="category-number" id="table" style="font-size: larger;"></span><span>项</span></div>
+                <div>手游类<span class="category-number" id="game" style="font-size: larger;"></span><span>项</span></div>
+                <div>端游类<span class="category-number" id ="app" style="font-size: larger;"></span><span>项</span></div>
+                <div>出行类<span class="category-number" id="travel" style="font-size: larger;"></span><span>项</span></div>
+                <div>其他类<span class="category-number" id="other" style="font-size: larger;"></span><span>项</span></div>
+                
+            </div>
+        </div>
+
+        <div class="panel">
+            <h2>用户评分排行</h2>
+            <canvas id="typeStatsChart"></canvas>
+        </div>
+
+        <div class="panel">
+            <h2>活动人数分布</h2>
+            <canvas id="trendChart"></canvas>
+        </div>
+
+        <div class="panel">
+            <h2>活动类型占比</h2>
+            <canvas id="machineVsHumanChart"></canvas>
+        </div>
+
+        <div class="panel">
+            <h2>活动状态分布图</h2>
+            <canvas id="distributionChart"></canvas>
+        </div>
+
+        <div class="panel">
+            <h2>近期活动数量统计</h2>
+            <canvas id="typeStatsChart2"></canvas>
+        </div>
+
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
+    <script src="BigScreen.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,278 @@
+/* 基本重置 */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif; 
+	background-image: url("../../images/wallhaven-nz9k8y.jpg");
+}
+
+/* Logo 样式 */
+.logo img {
+    width: 50px; 
+    height: 50px; 
+    margin-right: 10px; 
+    margin-top: 5px; 
+}
+
+nav {
+                   display: flex;
+                   justify-content: center;
+                   align-items: center;
+                   height: 100px;
+               }
+       
+               #nav {
+                   position: relative;
+                   border: none;
+                   border-radius: 10em;
+                   display: flex;
+                   list-style: none;
+                   background: linear-gradient(45deg, #f6d365, #fda085);
+                   box-shadow: 20px 40px 40px #00000033;
+                   padding: 10px;
+               }
+       
+               #nav li a {
+                   position: relative;
+                   padding: 15px 50px;
+                   font: 500 24px '微软雅黑';
+                   border: none;
+                   outline: none;
+                   color: rgb(255, 255, 255);
+                   display: inline-block;
+                   text-decoration: none;
+                   z-index: 3;
+               }
+       
+               .slide1,
+               .slide2 {
+                   position: absolute;
+                   display: inline-block;
+                   height: 60px;
+                   border-radius: 10em;
+                   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
+               }
+       
+               .slide1 {
+                   background-color: rgb(250, 236, 125);
+                   z-index: 2;
+               }
+       
+               .slide2 {
+                   opacity: 0;
+                   background-color: rgba(255, 241, 187, 0.5);
+                   z-index: 1;
+                   box-shadow: 0 0 20px #ffffffaa inset;
+               }
+       
+               .squeeze {
+                   transform: scale(0.9);
+               }
+
+.mainbody-area {
+    
+    padding: 20px 0; /* 顶部和底部的内边距 */
+    width: 100%;
+    min-height: 100vh;
+    
+}
+
+
+
+
+.table-title {
+    display: flex; /* 使用 Flexbox 布局 */
+    justify-content: center; /* 水平居中内容 */
+    align-items: center; /* 垂直居中 */
+    width: 100%; /* 使其占据100%的宽度 */
+    position: relative; /* 让绝对定位的折叠按钮能够对齐 */
+}
+
+.title-text {
+    margin-right: 0px; /* 把文本与按钮之间的空间最大化，保持文本在左侧 */
+}
+
+/* 将折叠按钮放到标题的右侧 */
+.collapse-button {
+    width: 0; /* 初始宽度为0 */
+    height: 0; /* 初始高度为0 */
+    border-left: 10px solid transparent; /* 形成三角形的左边 */
+    border-right: 10px solid transparent; /* 形成三角形的右边 */
+    border-bottom: 10px solid hsl(211, 85%, 52%); /* 形成三角形的底边 */
+    cursor: pointer; /* 鼠标指针效果 */
+    margin-left: 10px; /* 给按钮一点左边距 */
+    transition: transform 0.3s; /* 添加平滑过渡效果 */
+}
+
+
+/* 初始化时隐藏表格（可选） */
+#feedbackTable {
+    display: table; /* 默认显示 */
+}
+
+
+
+
+.activityManagement,
+.MyActivity, 
+.EndActivity{
+    max-width: 1000px; 
+   
+    margin: 10px auto; 
+    padding: 1px 5px;
+    background-color: #fff; 
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+    border-radius: 10px; 
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(5px);
+}
+
+.activityManagement table,
+.MyActivity table,
+.EndActivity table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: auto;
+    margin-bottom: 5px;
+}
+
+.activityManagement th,
+.MyActivity th,
+.EndActivity th,
+.activityManagement td,
+.MyActivity td,
+.EndActivity td {
+    border: 1px solid #ddd; 
+    padding: 8px; 
+    text-align: center;
+}
+
+.activityManagement th,
+.MyActivity th, 
+.EndActivity th {
+    background-color: #efec91; 
+    /*background-color: #cdea64; */
+    color: #333; 
+}
+
+.approve-button,
+.reject-button {
+    padding: 5px 10px;
+    margin: 2px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.approve-button {
+    background-color: #4CAF50; /* 绿色 */
+    color: white;
+}
+
+.reject-button {
+    background-color: #f44336; /* 红色 */
+    color: white;
+}
+
+.back-to-top {
+    position: fixed; 
+    bottom: 20px; 
+    right: 20px; 
+    background-color: #faea3f; 
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    display: none; 
+    z-index: 1000; 
+    font-weight: bold;
+   
+    font-size: medium;
+	background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+}
+
+.back-to-top:hover {
+    background-color: #ccc; 
+}
+
+/* 发布活动按钮 */
+.publish-activity {
+    position: fixed; 
+    bottom: 80px; /* 与返回顶部按钮留出空间 */
+    right: 100px; 
+    background-color: #f9e71e; /* 与页面主题一致 */
+    border: none; 
+    padding: 10px 15px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    z-index: 1000; 
+    font-size: 18px; 
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
+}
+
+.publish-activity:hover {
+    background-color: #e8f5e9; /* 鼠标悬停时的背景颜色 */
+}
+
+/* 发布活动 */
+.c-button {
+    position: fixed; 
+    bottom: 80px; /* 与返回顶部按钮留出空间 */
+    right: 100px; 
+    border: none;
+    border-color: #cac6c6;
+    
+    border-radius: 45px;
+    font-size: 20px;
+    text-align: left;
+    padding: 8px 0 10px 0; /* 上下内边距保持一致 */
+    border-style: outset;
+    box-shadow: -5px -5px 18px rgba(88, 80, 80, 0.1);
+    cursor: pointer;
+    transition: background 0.5s ease-in-out,colorcolor 0.5s ease-in-out;; /* 添加渐变过渡 */
+	background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+}
+
+.c-button .c-main {
+    border-radius: 45px;
+    color: rgba(0, 0, 0, 1); /* 黑色文字 */
+    padding: 11px 25px 11px 2px;
+    box-shadow: inset 0px 0px 5px rgba(17, 17, 17, 0);
+    transition: all 0.5s ease-in-out;
+  border: 1px solid transparent;
+  background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+}
+
+.c-ico .c-blur {
+    border-radius: 100%;
+    margin-left: 0;
+    padding: 8px 23px;
+    filter: blur(1px);
+    text-align: center;
+	background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+}
+
+.c-ico {
+    position: relative;
+    margin-right: 20px;
+}
+
+.c-ico .ico-text {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.ico-text
+{
+    font-size: 35px;
+}
+
+/* Hovering */
+.c-button .c-main:hover {
+    box-shadow: inset 0px 0px 5px rgba(17, 17, 17, 0.6);
+    border: 1px solid rgba(26, 26, 26, 0.5);
+    color: rgba(0, 0, 0, 0.7); /* 悬浮时改变文字颜色 */
+    background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>活动管理后台</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="text-center">活动管理后台</h2>
+    <table class="table table-striped mt-4">
+        <thead class="thead-dark">
+        <tr>
+            <th>活动ID</th>
+            <th>活动名</th>
+            <th>最大参会人数</th>
+            <th>活动类型</th>
+            <th>当前状态</th>
+            <th>提交时间</th>
+            <th>审核通过时间</th>
+            <th>报名开始时间</th>
+            <th>报名截至时间</th>
+            <th>活动开始时间</th>
+            <th>活动结束时间</th>
+            <th>评分</th>
+            <th>负责人ID</th>
+            <th>活动地址</th>
+            <th>负责人用户名</th>
+            <th>活动要求</th>
+            <th>其他说明</th>
+        </tr>
+        </thead>
+        <tbody id="activityTable">
+        <!-- 动态内容将被插入到这里 -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    // Fetch /activities/all API and display data
+    fetch('http://192.168.1.43:8080/activities/all')
+        .then(response => response.json())
+        .then(data => {
+            if (data.code === 0) {
+                const activityTable = document.getElementById('activityTable');
+                data.data.forEach(activity => {
+                    const row = `
+                            <tr>
+                                <td>${activity.activityid}</td>
+                                <td>${activity.activityname}</td>
+                                <td>${activity.maxceiling}</td>
+                                <td>${activity.type}</td>
+                                <td>${activity.status}</td>
+                                <td>${activity.timesubmit}</td>
+                                <td>${activity.timepass}</td>
+                                <td>${activity.timesignup1}</td>
+                                <td>${activity.timesignup2}</td>
+                                <td>${activity.timeproceed1}</td>
+                                <td>${activity.timeproceed2}</td>
+                                <td>${activity.score}</td>
+                                <td>${activity.headid}</td>
+                                <td>${activity.location}</td>
+                                <td>${activity.headusername}</td>
+                                <td>${activity.activityrequest}</td>
+                                <td>${activity.others}</td>
+                            </tr>
+                        `;
+                    activityTable.innerHTML += row;
+                });
+            } else {
+                alert('获取活动信息失败');
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching activity data:', error);
+            alert('获取活动信息失败');
+        });
+</script>
+</body>
+</html>

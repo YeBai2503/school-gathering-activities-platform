@@ -1,0 +1,111 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: hsl(217, 43%, 10%);
+    color: #ffffff;
+}
+
+.dashboard {
+    display: flex; /* 使用 Grid 布局 */
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center; /* 水平居中 */
+
+
+    padding: 0; /* 去掉内边距，以便完全填充 */
+    height: 90vh; /* 让 dashboard 填满整个视口高度 */
+    width: 100vw; /* 让 dashboard 填满整个视口宽度 */
+}
+
+.panel {
+    background-color: #1e2a38;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 21vw;
+    height: 44vh;
+
+    margin: 0.5%;
+    
+}
+
+.big {
+    background-color: #1e2a38;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    width: 45.5vw;
+    height: 44vh;
+    margin: 0.5% ;
+    display: flex; /* 使用 Flex 布局 */
+    flex-direction: column; /* 设置为纵向排列 */
+    justify-content: center; /* 在垂直方向上居中对齐 */
+    text-align: center; /* 文本居中 */
+}
+
+.panel h2 {
+    margin: 0 0 20px;
+    font-size: 24px;
+    border-bottom: 2px solid #444;
+    padding-bottom: 10px;
+}
+
+.total {
+    font-size: 50px;
+    display: flex;
+
+    justify-content: center;
+    text-align: center; /* 文本居中 */
+    
+}
+.to{
+    margin-left: 7vw;
+    margin-right: 6vw;
+    display: flex;
+    justify-content: center;
+}
+
+.total-title
+{
+    font-size: 50px;
+    margin: 0;
+    
+}
+.totaltitle
+{
+    margin: 0 70px;
+}
+
+.total-number,.total-people {
+    color: #00aaff;
+    margin-right: 10px;
+    
+    
+   
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.categories div {
+    background-color: #293748;
+    padding: 10px;
+    border-radius: 5px;
+    flex: 1 1 30%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.category-number {
+    color: #ffaa00;
+}
+
+#typeStatsChart2 {
+    width: 80%; /* 设置宽度，可以调整 */
+    height: 10px; /* 设置高度 */
+}

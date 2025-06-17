@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- 定义网页使用的字符编码 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 设置视窗宽度，适应不同设备 -->
+    <title>用户登录</title> <!-- 网页标题 -->
+    <link rel="icon" type="image/png" href="../images/N@_E%60%60IY@4_UBX7HDR9Q_V5.jpg" sizes="32x32"> <!-- 设置网页图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- 引入 FontAwesome 图标库 -->
+    <style>
+        /* 输入框自动填充样式 */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px white inset !important;
+            -webkit-text-fill-color: #333 !important;
+        }
+
+        /* 页面主体样式 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url("../images/wallhaven-yx6dyk.jpg"); /* 背景图片 */
+            background-size: cover; /* 背景图片覆盖整个屏幕 */
+            background-position: center; /* 背景图片居中 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* 添加黑色半透明遮罩 */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        /* 登录框样式 */
+        .container {
+            background-color: rgba(255, 255, 255, 0.4); /* 背景颜色 */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* 阴影 */
+            width: 300px;
+            backdrop-filter: blur(6px);
+            border: 2px solid rgba(255, 255, 255, 0.3); /* 边框 */
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* 动画效果 */
+            font-family: Arial, sans-serif;
+        }
+
+        .container h1 {
+            font-size: 40px;
+            margin-top: 0;
+            font-family: 'Montserrat', Arial, sans-serif;
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .container:hover {
+            transform: translateY(-10px); /* 悬浮效果 */
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .container a {
+            color: white;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 输入框样式 */
+        .container .input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .container .input-wrapper i {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .container input[type="text"],
+        .container input[type="password"] {
+            width: 80%;
+            padding: 10px 30px; /* 输入框内边距 */
+            border: none;
+            border-radius: 20px;
+            background-color: transparent;
+            backdrop-filter: blur(1px);
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            font-family: Arial, sans-serif;
+        }
+
+        .container input[type="text"]:focus,
+        .container input[type="password"]:focus {
+            background-color: rgba(255, 255, 255, 0.1); /* 聚焦时的背景颜色 */
+            outline: none; /* 去掉默认蓝色边框 */
+        }
+
+        .container .input-wrapper input[type="text"]:focus + i,
+        .container .input-wrapper input[type="password"]:focus + i {
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+            transform: translateY(-10px); /* 图标动画效果 */
+        }
+
+        /* 按钮样式 */
+        .container button {
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+        }
+
+        .container button:hover {
+            background-color: #0056b3; /* 悬浮时的背景颜色 */
+        }
+
+        /* 引用样式 */
+        .quote {
+            text-align: center;
+            margin-top: 20px;
+            font-style: italic;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+            font-family: Arial, sans-serif;
+        }
+
+        /* 切换页面链接样式 */
+        .switch-page {
+            text-align: center;
+            margin-top: 5px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .switch-page a {
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .switch-page a:hover {
+            text-decoration: underline; /* 悬浮时下划线 */
+        }
+
+        /* 错误消息样式 */
+        .error {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 头部样式 */
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.4);
+            padding: 10px 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(6px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            z-index: 1;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        .header .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .header .logo h1 {
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 小眼睛图标样式 */
+        .toggle-password {
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #fff;
+            font-size: 16px;
+            margin-left: 250px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部内容 -->
+    <div class="header">
+        <a href="#" class="logo">
+            <img src="../images/N@_E``IY@4_UBX7HDR9Q_V5.jpg" alt="Logo"> <!-- 网站Logo -->
+            <h1>校聚活动平台</h1> <!-- 网站标题 -->
+        </a>
+    </div>
+
+    <!-- 登录表单容器 -->
+    <div class="container">
+        <h1>登录</h1> <!-- 登录标题 -->
+        <form id="loginForm">
+            <!-- 用户名输入框 -->
+            <div class="input-wrapper">
+                <input type="text" id="loginUsername" placeholder="用户名/邮箱" required>
+                <i class="fa fa-user"></i> <!-- 用户名图标 -->
+            </div>
+            <!-- 密码输入框 -->
+            <div class="input-wrapper">
+                <input type="password" id="loginPassword" placeholder="请输入密码" required>
+                <i class="fa fa-lock"></i> <!-- 密码图标 -->
+                <i class="fa fa-eye-slash toggle-password" id="toggleLoginPassword"></i> <!-- 小眼睛图标 -->
+            </div>
+            <button type="submit">登录</button> <!-- 登录按钮 -->
+            <p class="error" id="loginError"></p> <!-- 错误消息 -->
+        </form>
+        <!-- 切换页面链接 -->
+        <div class="switch-page">
+            <p>没有账户？<a href="register.html">点此注册</a></p> <!-- 注册链接 -->
+            <p><a href="fogetpwd.html">忘记密码？</a></p> <!-- 忘记密码链接 -->
+        </div>
+    </div>
+
+    <script>
+        // 切换密码可见性
+        document.getElementById('toggleLoginPassword').addEventListener('click', function() {
+            const passwordField = document.getElementById('loginPassword');
+            const eyeIcon = document.getElementById('toggleLoginPassword');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text'; // 切换为文本类型
+                eyeIcon.classList.remove('fa-eye-slash'); // 更改图标
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                passwordField.type = 'password'; // 切换为密码类型
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
+        });
+
+        // 登录表单提交事件
+        document.getElementById('loginForm').addEventListener('submit', async function (event) {
+            event.preventDefault(); // 阻止默认提交
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+
+            try {
+                // 发送 POST 请求进行登录
+                const response = await fetch('http://192.168.1.43:8080/auth/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({
+                        'usernameoremail': username,
+                        'password': password
+                    })
+                });
+
+                const result = await response.json();
+
+                console.log('Response Status:', response.status);
+                console.log('Response Data:', result);
+
+                if (response.ok && result.code === 200) {
+                    // 保存用户信息到 localStorage
+                    localStorage.setItem('user', JSON.stringify(result.data));
+                    
+                    // 保存用户 ID 到 localStorage
+                    const headid = result.data.id; // 获取用户 ID
+                    localStorage.setItem('headid', headid);
+                    console.log(headid);
+                    
+                    // 登录成功后跳转到主页
+                    window.location.href = '../homepage/homepage.html';
+                } else {
+                    document.getElementById('loginError').textContent = '账号或密码错误'; // 显示错误消息
+                }
+            } catch (error) {
+                console.error('Error:', error); // 在控制台中记录错误
+                document.getElementById('loginError').textContent = '网络错误，请稍后重试'; // 显示网络错误消息
+            }
+        });
+    </script>
+</body>
+</html>

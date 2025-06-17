@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - 校园活动发布管理平台</title>
+    <link rel="icon" type="image/png" href="image/favicon.png" sizes="32x32">
+    <link rel="stylesheet" href="css/style.css"> <!-- 引入 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+</head>
+
+<body>
+    <nav>
+        <img src="image/logo.png" alt="Logo">
+        <ul>
+            <li><a href="index.html" class="active">首页</a></li>
+            <li><a href="../activity/activitySquare/activity.html">活动广场</a></li>
+            <li><a href="activity-management.html">活动管理</a></li>
+            <li><a href="messages.html">消息</a></li>
+            <li><a href="../PHP/personal page.html">个人中心</a></li>
+        </ul>
+    </nav>
+
+    <div class="rolling-images-container">
+        <div class="swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="https://via.placeholder.com/400x200" alt="活动图片1"></div>
+                <div class="swiper-slide"><img src="https://via.placeholder.com/400x200" alt="活动图片2"></div>
+                <div class="swiper-slide"><img src="https://via.placeholder.com/400x200" alt="活动图片3"></div>
+            </div>
+            <div class="swiper-pagination"></div>
+        </div>
+    </div>
+
+    <div class="container">
+       
+
+        <div class="announcement-reminder-container">
+            <div class="announcement">
+                <h3>重要通知</h3>
+                <p>网页将在今晚十一点开始维护，维护时间至明日早上七点。带来的不便敬请谅解</p>
+                <p>请同学们注意文明用语，近日网站将会对不文明用语进行监管，严重可能导致封号。</p>
+            </div>
+            <div class="calendar-container">
+                <h3>活动日历</h3>
+                <div class="calendar" id="activity-calendar"></div>
+            </div>
+        </div>
+
+        <div class="activity-section">
+            <h3>热门活动</h3>
+            <div class="activity-grid" id="hot-activities"></div>
+        </div>
+
+        <div class="activity-section">
+            <h3>近期活动</h3>
+            <div class="activity-grid" id="recent-activities"></div>
+        </div>
+    </div>
+
+    <div id="signupModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>报名申请</h2>
+            <form id="signupForm">
+                <div>
+                    <label for="name">姓名:</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div>
+                    <label for="studentId">学号:</label>
+                    <input type="text" id="studentId" name="studentId" required>
+                </div>
+                <div>
+                    <label for="activityTitle">活动标题:</label>
+                    <input type="text" id="activityTitle" name="activityTitle" readonly>
+                </div>
+                <div>
+                    <label for="activityTime">活动时间:</label>
+                    <input type="text" id="activityTime" name="activityTime" readonly>
+                </div>
+                <div>
+                    <label for="activityLocation">活动地点:</label>
+                    <input type="text" id="activityLocation" name="activityLocation" readonly>
+                </div>
+                <div>
+                    <button type="submit">提交</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script>
+        function loadActivities() {
+            fetch('/activities/top-three')
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.length > 0) {
+                        // 转换数据结构以适配前端展示
+                        const formattedActivities = data.map(activity => ({
+                            day: parseInt(activity.timeproceed1.split('-')[2]), // 假设日期格式为 "YYYY-MM-DD"
+                            time: activity.timeproceed1.split(' ')[1], // 假设时间在日期的后半部分 "YYYY-MM-DD HH:MM:SS"
+                            location: '未知地点', // 由于响应中没有地点信息，这里用占位符
+                            title: activity.activityname || '未知活动',
+                            imgSrc: 'https://via.placeholder.com/400x200', // 使用默认图片链接
+                            organizer: '未知主办方', // 由于响应中没有主办方信息，这里用占位符
+                            tags: [activity.type || '未知类型'], // 使用活动类型作为标签
+                            participants: activity.maxceiling || 0 // 使用 maxceiling 作为参与人数
+                        }));
+
+                        loadActivitySection('hot-activities', formattedActivities);
+                        loadActivitySection('recent-activities', formattedActivities); // 如果需要也可以加载到 "近期活动" 中
+                        loadCalendar('activity-calendar', formattedActivities);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching activities:', error);
+                });
+        }
+
+
+
+        function loadActivitySection(sectionId, activities) {
+            const section = document.getElementById(sectionId);
+            section.innerHTML = '';
+
+            activities.forEach(activity => {
+                const activityCard = document.createElement('div');
+                activityCard.className = 'activity-card';
+
+                activityCard.innerHTML = `
+                    <img src="${activity.imgSrc}" alt="活动图片">
+                    <p>${activity.time}</p>
+                    <p>${activity.title}</p>
+                    <p class="activity-location">地点: ${activity.location}</p>
+                    <p class="activity-participants">参与人数: ${activity.participants}</p>
+                    <p class="activity-organizer">主办方: ${activity.organizer}</p>
+                    <div class="activity-tags">
+                        ${activity.tags.map(tag => `<span class="activity-tag">${tag}</span>`).join('')}
+                    </div>
+                    <div class="btn-container">
+                        <button class="button like-button" onclick="likeActivity(this)"></button>
+                        <button class="button favorite-button" onclick="favoriteActivity(this)"></button>
+                    </div>
+                    <button class="sign-up-button" onclick="openSignupModal('${activity.title}', '${activity.time}', '${activity.location}')">报名</button>
+                `;
+                section.appendChild(activityCard);
+            });
+        }
+
+        function loadCalendar(calendarId, activities) {
+            const calendar = document.getElementById(calendarId);
+            const daysInMonth = 30; // 假设一个月有30天
+            const days = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+
+            calendar.innerHTML = `
+                <div class="header">日</div>
+                <div class="header">一</div>
+                <div class="header">二</div>
+                <div class="header">三</div>
+                <div class="header">四</div>
+                <div class="header">五</div>
+                <div class="header">六</div>
+                ${days.map(day => `<div class="day" id="day-${day}">${day}</div>`).join('')}
+            `;
+
+            activities.forEach(activity => {
+                const dayElement = document.getElementById(`day-${activity.day}`);
+                if (dayElement) {
+                    const eventElement = document.createElement('div');
+                    eventElement.className = 'event';
+                    eventElement.innerHTML = `
+                        <div>${activity.title}</div>
+                        <div class="event-details">
+                            时间: ${activity.time}<br>
+                            地点: ${activity.location}
+                        </div>
+                    `;
+                    dayElement.appendChild(eventElement);
+                }
+            });
+        }
+
+        function likeActivity(button) {
+            button.classList.toggle('liked');
+        }
+
+        function favoriteActivity(button) {
+            button.classList.toggle('favorited');
+        }
+
+        function openSignupModal(title, time, location) {
+            const modal = document.getElementById('signupModal');
+            const activityTitle = document.getElementById('activityTitle');
+            const activityTime = document.getElementById('activityTime');
+            const activityLocation = document.getElementById('activityLocation');
+
+            activityTitle.value = title;
+            activityTime.value = time;
+            activityLocation.value = location;
+            modal.style.display = "block";
+        }
+
+        function closeSignupModal() {
+            const modal = document.getElementById('signupModal');
+            modal.style.display = "none";
+        }
+
+        function handleSignupFormSubmit(event) {
+            event.preventDefault();
+            alert('报名成功！');
+            closeSignupModal();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.getElementById('signupModal');
+            const closeButton = document.querySelector('.close');
+
+            closeButton.addEventListener('click', closeSignupModal);
+
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    closeSignupModal();
+                }
+            });
+
+            const signupForm = document.getElementById('signupForm');
+            signupForm.addEventListener('submit', handleSignupFormSubmit);
+
+            // 初始化Swiper
+            var swiper = new Swiper('.swiper-container', {
+                slidesPerView: 1.5, // 显示当前图片和部分前后图片
+                centeredSlides: true, // 当前图片居中
+                spaceBetween: 20, // 图片之间的间距
+                loop: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                    clickable: true,
+                },
+                autoplay: {
+                    delay: 5000,
+                    disableOnInteraction: false,
+                },
+                speed: 1000
+            });
+
+            // 加载活动
+            loadActivities();
+        });
+    </script>
+	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+</script>
+
+</body>
+
+</html>

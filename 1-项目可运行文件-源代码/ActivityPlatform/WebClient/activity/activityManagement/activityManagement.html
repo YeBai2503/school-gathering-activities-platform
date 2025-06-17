@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>活动管理 | 校聚活动平台</title>
+        <link rel="icon" type="image/png" href="../../images/N@_E``IY@4_UBX7HDR9Q_V5.jpg" sizes="32x32">
+        <link rel="stylesheet" href="activityManagement.css">
+    </head>
+    <body>
+        <div>
+            <nav>
+                <ul id="nav">
+                    <li class="slide1"></li>
+                    <li class="slide2"></li>
+                    <li><a href="../../homepage/homepage.html">首页</a></li>
+                    <li><a href="../../activity/activitySquare/activity.html">活动广场</a></li>
+                    <li><a href="../../activity/activityManagement/activityManagement.html">活动管理</a></li>
+                    <li><a href="../../Message/message.html">留言板</a></li>
+                    <li><a href="../../PHP/personal page.html">个人中心</a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="mainbody-area">
+            <!-- 管理申请 -->
+            <div class="activityManagement">
+                <div>
+                    <h2 class="table-title"><span class="title-text">活动发布的报名反馈</span>
+                        <div class="collapse-button" onclick="toggleTable('feedbackTable')"></div>
+                    </h2>
+                    
+                    <table id="feedbackTable">
+                        <thead>
+                            <tr>
+                                <th>活动名称</th>
+                                <th>活动ID</th>
+                                <th>报名人</th>
+                                <th>备注</th>
+                                <th>人数进展</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>无</td><td>无</td><td>无</td><td>无</td><td>无</td></tr>
+                            
+                            <!-- 其他申请可继续添加 -->
+                        </tbody>
+                    </table>
+
+
+                </div>
+            </div>
+
+            <!-- 我的活动列表模块 -->
+            <div class="MyActivity">
+                <h2 class="table-title"><span class="title-text">待参加的活动</span>
+                    <div class="collapse-button" onclick="toggleTable('myActivityTable')"></div>
+                </h2>
+                <table id="myActivityTable">
+                    <thead>
+                        <tr>
+                            <th>活动名称</th>
+                            <th>活动ID</th>
+                            <th>发布人名称</th>
+                            <th>起始时间</th>
+                            <th>结束时间</th>
+                            <th>参与人数</th>
+                            <th>活动地点</th>
+                            <th>活动类型</th>
+                            <th>发布人电话</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>无</td><td>无</td><td>无</td><td>无</td><td>无</td><td>无</td><td>无</td><td>无</td><td>无</td></tr>
+                        
+                        <!-- 其他活动也可以继续添加 -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- 结束活动列表模块 -->
+            <div class="EndActivity">
+                <h2 class="table-title"><span class="title-text">已结束的活动</span>
+                    <div class="collapse-button" onclick="toggleTable('endActivityTable')"></div>
+                </h2>
+                <table id="endActivityTable">
+                    <thead>
+                        <tr>
+                            <th>活动名称</th>
+                            <th>活动ID</th>
+                            <th>发布人名称</th>
+                            <th>起始时间</th>
+                            <th>结束时间</th>
+                            <th>活动地点</th>
+                            <th>联系方式</th>
+                            <th>分数(默认80)</th>
+                            <th>评分</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>无</td><td>无</td><td>无</td><td>无</td><td>无</td><td>无</td><td>无</td><td>无</td><td>无</td></tr>
+                        
+                    </tbody>
+                </table>
+            </div>
+            <!-- 发布活动按钮 -->
+            <button class="c-button" id="releaseButton">
+                <span class="c-main">
+                  <span class="c-ico"><span class="c-blur"></span> <span class="ico-text">+</span></span>
+                  发布
+                </span>
+              </button>
+
+            <!-- 返回顶部按钮 -->
+            <button class="back-to-top" id="backToTop">返回顶部</button>
+			 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+            <script>
+                //返回顶部
+                const backToTopButton = document.getElementById('backToTop');
+        
+                window.onscroll = function() {
+                    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                        backToTopButton.style.display = 'block'; // 显示按钮
+                    } else {
+                        backToTopButton.style.display = 'none'; // 隐藏按钮
+                    }
+                };
+        
+                backToTopButton.addEventListener('click', function() {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth' // 平滑滚动
+                    });
+                });
+
+                let savedUserId;
+                // 读取本地存储的用户 ID
+                document.addEventListener('DOMContentLoaded', (event) => {
+                    savedUserId = localStorage.getItem('headid'); // 在这里读取
+                    if (savedUserId) {
+                        console.log(`欢迎回来，用户ID: ${savedUserId}`);
+                        loadActivityFeedback(savedUserId);  // 加载活动反馈
+                        loadMyActivities(savedUserId);  // 加载用户活动
+                        loadEndActivities(savedUserId);  // 加载已结束活动
+                    } else {
+                        console.log('用户未登录或 session 已过期');
+                    }
+                });
+
+
+
+                //活动发布按钮
+                document.getElementById('releaseButton').onclick = function() {
+                    window.location.href = '../../ActivityRelease/ActivityRelease.html';
+                };
+
+                // 折叠/展开表格功能
+                function toggleTable(tableId) {
+                    var table = document.getElementById(tableId);
+                    var button = document.querySelector(`.collapse-button[onclick="toggleTable('${tableId}')"]`);
+                    var currentDisplay = window.getComputedStyle(table).display;
+                
+                    if (currentDisplay === "none") {
+                        table.style.display = "table"; // 显示表格
+                        button.style.transform = "rotate(180deg)"; // 指示展开状态
+                    } else {
+                        table.style.display = "none"; // 隐藏表格
+                        button.style.transform = "rotate(0deg)"; // 指示折叠状态
+                    }
+                }
+                
+                // 默认表格显示在页面加载时
+                document.addEventListener("DOMContentLoaded", function() {
+                    document.querySelectorAll(".feedback-table").forEach(table => {
+                        table.style.display = "table"; // 初始化时显示所有表格
+                    });
+                    var buttons = document.querySelectorAll('.collapse-button');
+                    buttons.forEach(button => {
+                        button.style.transform = "rotate(180deg)"; // 初始状态指示表格已展开
+                    });
+                });
+
+
+
+                // 加载活动反馈的函数
+                async function loadActivityFeedback(userId) {
+                    try {
+                        // 第一步：请求用户活动列表
+                        const activitiesResponse = await fetch(`http://192.168.1.43:8080/activities/${userId}/activities`);
+                        if (!activitiesResponse.ok) {
+                            throw new Error(`HTTP error! status: ${activitiesResponse.status}`);
+                        }
+                        const activitiesData = await activitiesResponse.json();
+
+                        // 从活动数据中提取 activityid 和 maxceiling
+                        const activities = activitiesData.data.map(activity => ({
+                            activityid: activity.activityid,
+                            maxceiling: activity.maxceiling
+                        }));
+
+                        // 第二步：请求活动的报名反馈和人数
+                        const feedbackRows = []; // 用于存储行信息
+                        for (let { activityid, maxceiling } of activities) {
+                            // 请求活动的报名反馈
+                            const feedbackResponse = await fetch(`http://192.168.1.43:8080/event/users?activityId=${activityid}`);
+                            if (!feedbackResponse.ok) {
+                                throw new Error(`HTTP error! status: ${feedbackResponse.status}`);
+                            }
+                            const feedbackData = await feedbackResponse.json();
+                            
+                            // 获取报名人数
+                            const countResponse = await fetch(`http://192.168.1.43:8080/event/${activityid}/count`);
+                            let participantCount = 0; // 默认人数为0
+                            if (countResponse.ok) {
+                                const countData = await countResponse.json();
+                                participantCount = countData.data; // 获取人数
+                            }
+
+                            // 处理反馈数据，并生成表格行
+                            feedbackData.data.forEach(item => {
+                                // 格式化为 当前人数/总人数
+                                const participantFormat = `${participantCount}/${maxceiling || '无'}`; // maxceiling 可能为 null 或 undefined
+                                feedbackRows.push(`
+                                    <tr>
+                                        <td>${item.activityname || '无'}</td>
+                                        <td>${item.activityid || '无'}</td>
+                                        <td>${item.username || '无'}</td>
+                                        <td>${item.reason || '无'}</td>
+                                        <td>${participantFormat || '无'}</td> <!-- 使用当前人数/总人数 -->
+                                    </tr>
+                                `);
+                            });
+                        }
+
+                        // 更新报名反馈表格
+                        const feedbackTableBody = document.getElementById("feedbackTable").getElementsByTagName("tbody")[0];
+                        feedbackTableBody.innerHTML = feedbackRows.join(''); // 连接并更新表格内容
+
+                    } catch (error) {
+                        console.error('Fetching error: ', error);
+                    }
+                }
+
+
+
+
+
+                // 加载用户活动的函数
+                async function loadMyActivities(userId) {
+                    try {
+                        const response = await fetch(`http://192.168.1.43:8080/activities/user/activities?userId=${userId}`); // 修改为最新用户 ID 进行请求
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const activities = await response.json();
+                        updateMyActivityTable(activities); // 更新活动表格
+                    } catch (error) {
+                        console.error('Fetching error: ', error);
+                    }
+                }
+
+                // 更新我的活动列表表格的函数
+                async function updateMyActivityTable(activities) {
+                    const tbody = document.getElementById("myActivityTable").getElementsByTagName("tbody")[0];
+                    tbody.innerHTML = ""; // 清空现有的内容
+
+                     // 逐个遍历活动
+                    for (const activity of activities) {
+                        const pnumber = await fetchPNumber(activity.headid); // 异步获取联系信息
+
+                        const row = document.createElement("tr");
+                        // 创建单元格并添加到行
+                        row.innerHTML = `
+                            <td>${activity.activityname || '无'}</td>
+                            <td>${activity.activityid || '无'}</td>
+                            <td>${activity.headusername || '无'}</td>
+                            <td>${formatDate(activity.timeproceed1) || '无'}</td>
+                            <td>${formatDate(activity.timeproceed2) || '无'}</td>
+                            <td>${activity.maxceiling || '无'}</td>
+                            <td>${activity.location || '无'}</td>
+                            <td>${activity.type || '无'}</td>
+                            <td>${pnumber || '无'}</td> <!-- 此处更新为获取的 pnumber -->
+                        `;
+                        tbody.appendChild(row);
+                    }
+                }
+                // 异步请求 pnumber 的函数
+                async function fetchPNumber(activityId) {
+                    try {
+                        const response = await fetch(`http://192.168.1.43:8080/auth/showuser/${activityId}`); // 请求端口以获取 pnumber
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const userInfo = await response.json(); // 获取用户信息
+                        return userInfo.data.pnumber || '无'; // 提取 pnumber 值
+                    } catch (error) {
+                        console.error('Fetching pnumber error: ', error);
+                        return '未知'; // 返回默认值或者处理错误
+                    }
+                }
+
+
+                // 加载已结束活动的函数
+                async function loadEndActivities(userId) {
+                    try {
+                        const response = await fetch(`http://192.168.1.43:8080/activities/user/finished-activities?userId=${userId}`); // 修改为最新用户 ID 进行请求
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const activities = await response.json();
+                        updateEndActivityTable(activities,userId); // 更新活动表格
+                    } catch (error) {
+                        console.error('Fetching error: ', error);
+                    }
+                }
+
+                // 更新结束活动列表表格的函数
+                async function updateEndActivityTable(activities,userId) {
+                    const tbody = document.getElementById("endActivityTable").getElementsByTagName("tbody")[0];
+                    tbody.innerHTML = ""; // 清空现有的内容
+                
+                    // 逐个遍历活动
+                    for (const activity of activities) {
+                        const pnumber = await fetchPNumber(activity.headid); // 异步获取联系信息
+
+                        // 获取活动评分
+        const score11 = await fetchActivityScore(activity.activityid, userId); // 传入活动的 headid 和 userId
+                
+                        const row = document.createElement("tr");
+                        const activityId = activity.activityid; // 提取活动ID
+                
+                        // 创建单元格并添加到行
+                        row.innerHTML = `
+                            <td>${activity.activityname || '无'}</td>
+                            <td>${activity.activityid || '无'}</td>
+                            <td>${activity.headusername || '无'}</td>
+                            <td>${formatDate(activity.timeproceed1) || '无'}</td>
+                            <td>${formatDate(activity.timeproceed2) || '无'}</td>
+                            <td>${activity.location || '无'}</td>
+                            <td>${pnumber || '无'}</td> <!-- 此处更新为获取的 pnumber -->
+                            <td><input type="number" min="0" max="100" step="1" placeholder="${score11 || 80}" class="score-input" data-activity-id="${activityId}"></td>
+                            <td><button type="button" class="submit-score-button">提交</button></td>
+                        `;
+                
+                        // 设置提交按钮的事件处理程序
+                        row.querySelector('.submit-score-button').onclick = async function() {
+                            // 确保在事件处理程序里获取最新的输入值
+                            const scoreInput = row.querySelector('.score-input');
+                            const score = parseInt(scoreInput.value, 10); // 将输入框的值转换为整数
+                            const userId = parseInt(savedUserId, 10); // 将用户ID转换为整数
+                
+                            // 读取活动ID并转换为整数
+                            const activityId = parseInt(scoreInput.getAttribute('data-activity-id'), 10);
+                
+                            // 日志输出
+                            console.log('userId:', userId);
+                            console.log('score:', score);
+                            console.log('activityId:', activityId);
+                
+                            // 提交分数的逻辑
+                            try {
+                                // 确保将参数转换为整数
+                                const userIdInt = parseInt(userId, 10); 
+                                const activityIdInt = parseInt(activityId, 10); 
+                                const scoreInt = parseInt(score, 10); // 确保分数也是整数
+
+                                // 创建 URLSearchParams 对象
+                                const params = new URLSearchParams();
+                                params.append('userid', userIdInt);
+                                params.append('activityid', activityIdInt);
+                                params.append('score', scoreInt);
+
+                                const response = await fetch(`http://192.168.1.43:8080/event/${userIdInt}/activities/${activityIdInt}/rate`, {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded', // 设置请求内容类型
+                                    },
+                                    body: params.toString() // 转换为 x-www-form-urlencoded 格式
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error(`HTTP error! status: ${response.status}`);
+                                }
+
+                                const result = await response.json();
+                                console.log('评分提交成功:', result);
+                                alert('评分提交成功'); // 可以根据需要将其更改为提醒或其他处理
+
+                            } catch (error) {
+                                console.error('提交评分失败', error);
+                                alert('提交评分失败，请稍后再试。');
+                            }
+                        };
+                
+                        // 将行添加到表格
+                        tbody.appendChild(row);
+                    }
+                }
+
+                // 获取活动评分的函数
+async function fetchActivityScore(headId, userId) {
+    try {
+        const response = await fetch(`http://192.168.1.43:8080/event/getScore?activityid=${headId}&userid=${userId}`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const scoreData = await response.json();
+        if (scoreData.code === 200) {
+            return scoreData.data; // 返回评分
+        } else {
+            console.error('获取评分失败:', scoreData.message);
+            return null; // 返回 null 或默认值
+        }
+    } catch (error) {
+        console.error('Fetching error: ', error);
+        return null; // 返回 null 或默认值
+    }
+}
+
+
+
+                // 时间格式化函数
+                function formatDate(dateString) {
+                    console.log(dateString);
+                    if (!dateString) {
+                        return '未设置'; // 如果日期无效，返回“未设置”
+                    }
+                    const date = new Date(dateString);    
+                    // 格式化为 YYYY-MM-DD HH:MM
+                    const year = date.getFullYear();
+                    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从 0 开始，所以需要加 1
+                    const day = date.getDate().toString().padStart(2, '0');
+                    const hours = date.getHours().toString().padStart(2, '0');
+                    const minutes = date.getMinutes().toString().padStart(2, '0');
+
+                    return `${year}-${month}-${day} ${hours}:${minutes}`; // 返回格式化的字符串
+                }
+                   
+
+      $("#nav a").on("click", function () {
+            var position = $(this).parent().position();
+            var width = $(this).parent().width();
+            $("#nav .slide1").css({ opacity: 1, left: +position.left, width: width });
+        });
+        $("#nav a").on("mouseover", function () {
+            var position = $(this).parent().position();
+            var width = $(this).parent().width();
+            $("#nav .slide2").css({ opacity: 1, left: +position.left, width: width }).addClass("squeeze");
+        });
+        $("#nav a").on("mouseout", function () {
+            $("#nav .slide2").css({ opacity: 0 }).removeClass("squeeze");
+        });
+        var currentWidth = $("#nav li:nth-of-type(5) a").parent("li").width();
+        var current = $("li:nth-of-type(5) a").position();
+        $("#nav .slide1").css({ left: +current.left, width: currentWidth });
+            </script>
+
+
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/png" href="../images/N@_E%60%60IY@4_UBX7HDR9Q_V5.jpg"sizes="32x32">
+    <title>发布活动 - 校聚</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+			background-image: url("../images/wallhaven-nz9k8y.jpg");
+        }
+
+        nav {
+                          display: flex;
+                          justify-content: center;
+                          align-items: center;
+                          height: 100px;
+						  
+                      }
+              
+                      #nav {
+                          position: relative;
+                          border: none;
+                          border-radius: 10em;
+                          display: flex;
+                          list-style: none;
+                          background: linear-gradient(45deg, #f6d365, #fda085);
+                          box-shadow: 20px 40px 40px #00000033;
+                          padding: 10px;
+                      }
+              
+                      #nav li a {
+                          position: relative;
+                          padding: 15px 50px;
+                          font: 500 24px '微软雅黑';
+                          border: none;
+                          outline: none;
+                          color: rgb(255, 255, 255);
+                          display: inline-block;
+                          text-decoration: none;
+                          z-index: 3;
+                      }
+              
+                      .slide1,
+                      .slide2 {
+                          position: absolute;
+                          display: inline-block;
+                          height: 60px;
+                          border-radius: 10em;
+                          transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
+                      }
+              
+                      .slide1 {
+                          background-color: rgb(250, 236, 125);
+                          z-index: 2;
+                      }
+              
+                      .slide2 {
+                          opacity: 0;
+                          background-color: rgba(255, 241, 187, 0.5);
+                          z-index: 1;
+                          box-shadow: 0 0 20px #ffffffaa inset;
+                      }
+              
+                      .squeeze {
+                          transform: scale(0.9);
+                      }
+
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+            position: relative;
+			background: rgba(255, 255, 255, 0.5);
+			backdrop-filter: blur(5px);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-header h2 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group1 {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group2 {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .form-group label,
+        .form-group1 label,
+        .form-group2 label {
+            font-size: 16px;
+            font-weight: bold;
+            width: 30%;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea,
+        .form-group1 input,
+        .form-group1 select,
+        .form-group1 textarea {
+            width: 30%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s;
+			min-height: 15px;
+			transition: background-color 0.3s;
+			border-radius: 20px;
+			
+			background: rgba(255, 255, 255, 0.3);
+			backdrop-filter: blur(5px);
+        }
+
+        .form-group2 input,
+        .form-group2 select,
+        .form-group2 textarea {
+            width: 10%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.3s;
+			transition: background-color 0.3s;
+			border-radius: 20px;
+			
+			background: rgba(255, 255, 255, 0.3);
+			backdrop-filter: blur(5px);
+        }
+
+        .form-group input[type="file"],
+        .form-group1 input[type="file"],
+        .form-group2 input[type="file"] {
+            padding: 5px;
+        }
+
+        .form-group textarea,
+        .form-group1 textarea,
+        .form-group2 textarea {
+            height: 100px;
+        }
+
+        .btn-submit {
+            background-color: #48C774;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            width: 100%;
+            max-width: 200px;
+            margin: 20px auto;
+        }
+
+        .btn-submit:hover {
+            background-color: #3EBF65;
+        }
+
+        .cover-preview {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .cover-preview img {
+            max-width: 200px; /* 控制预览图片的宽度 */
+            height: auto;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .readonly-username {
+            color: #999;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul id="nav">
+            <li class="slide1"></li>
+            <li class="slide2"></li>
+            <li><a href="../homepage/homepage.html">首页</a></li>
+            <li><a href="../activity/activitySquare/activity.html">活动广场</a></li>
+            <li><a href="../activity/activityManagement/activityManagement.html">活动管理</a></li>
+            <li><a href="../Message/message.html">留言板</a></li>
+            <li><a href="../PHP/personal page.html">个人中心</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="form-header">
+            <h2>发布活动</h2>
+        </div>
+        <form id="publishActivityForm">
+            <div class="form-group1">
+                <label for="activityName">活动名称:</label>
+                <input type="text" id="activityName" name="activityName" required>
+            </div>
+            <div class="form-group1">
+                <label for="publisher">发布人:</label>
+                <span id="publisher" class="readonly-username"></span>
+            </div>
+            <div class="form-group1">
+                <label for="startDate">开始时间:</label>
+                <input type="datetime-local" id="startDate" name="startDate" required>
+            </div>
+            <div class="form-group1">
+                <label for="endDate">结束时间:</label>
+                <input type="datetime-local" id="endDate" name="endDate" required>
+            </div>
+            <div class="form-group">
+                <label for="imageUrl">封面图片 URL:</label>
+                <input type="url" id="imageUrl" name="imageUrl" required>
+            </div>
+            <div class="form-group2">
+                <label for="participants">人数:</label>
+                <input type="number" id="participants" name="participants" min="1" required>
+            </div>
+            <div class="form-group">
+                <label for="location">地点:</label>
+                <input type="text" id="location" name="location" required>
+            </div>
+            <div class="form-group2">
+                <label for="activityType">类型:</label>
+                <select id="activityType" name="activityType" required>
+                    <option value="体育">体育</option>
+                    <option value="学术">学术</option>
+                    <option value="艺术">艺术</option>
+                    <option value="桌游">桌游</option>
+                    <option value="出行">出行</option>
+                    <option value="手游">手游</option>
+                    <option value="端游">端游</option>
+                    <option value="其他">其他</option>
+                </select>
+            </div>
+            <div class="form-group1">
+                <label for="requirements">报名要求:</label>
+                <input type="text" id="requirements" name="requirements" required>
+            </div>
+            <div class="form-group1">
+                <label for="contact">联系方式:</label>
+                <input type="text" id="contact" name="contact" required>
+            </div>
+            <div class="form-group">
+                <label for="description">活动说明:</label>
+                <textarea id="description" name="description" required></textarea>
+            </div>
+            <button type="submit" class="btn-submit">发布活动</button>
+        </form>
+    </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+    <script>
+        const baseUrl = 'http://192.168.1.43:8080';
+
+        document.addEventListener("DOMContentLoaded", function() {
+            const savedUserId = localStorage.getItem('headid'); // 在这里读取
+            if (savedUserId) {
+                console.log(`欢迎回来，用户ID: ${savedUserId}`);
+                fetchUserDetails(savedUserId);
+            } else {
+                console.log('用户未登录或 session 已过期');
+                // 可以在这里重定向到登录页面或者显示提示
+            }
+
+            document.getElementById('publishActivityForm').addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(this);
+
+                // 获取并转换时间格式
+                const startDate = new Date(formData.get('startDate')).toISOString();
+                const endDate = new Date(formData.get('endDate')).toISOString();
+
+                // 获取图片URL
+                const imageUrl = formData.get('imageUrl');
+
+                // 构建API需要的数据格式
+                const activityData = {
+                    activityid: 0,
+                    activityname: formData.get('activityName'),
+                    maxceiling: parseInt(formData.get('participants')),
+                    type: formData.get('activityType'),
+                    status: 'pending', // 初始状态，可以根据具体需求调整
+                    timesubmit: new Date().toISOString(),
+                    timepass: '',
+                    timesignup1: startDate,
+                    timesignup2: endDate,
+                    timeproceed1: startDate,
+                    timeproceed2: endDate,
+                    score: 0,
+                    headid: savedUserId, // 使用从 localStorage 读取的用户ID
+                    profileimageurl: imageUrl, // 封面图片URL
+                    location: formData.get('location'),
+                    headusername: document.getElementById('publisher').innerText,
+                    activityrequest: formData.get('requirements'),
+                    others: formData.get('description')
+                };
+
+                // 直接发布活动
+                publishActivity(activityData);
+            });
+        });
+
+        function fetchUserDetails(userId) {
+            fetch(`${baseUrl}/auth/showuser/${userId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('网络响应错误');
+                    }
+                    return response.json();
+                })
+                .then(result => {
+                    if (result.code === 200) { // 假设成功返回的状态码是200
+                        const user = result.data;
+                        document.getElementById('publisher').innerText = user.username;
+                        document.getElementById('contact').value = user.phone || user.email;
+                    } else {
+                        console.error('获取用户信息失败:', result);
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch错误:', error);
+                });
+        }
+
+        function publishActivity(activityData) {
+            fetch(`${baseUrl}/activities/request`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(activityData)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.code === 200) {
+                    alert('活动发布成功');
+                    window.location.href = '../activity/activityManagement/activityManagement.html';
+                } else {
+                    alert(`活动发布失败: ${result.message}`);
+                }
+            })
+            .catch(error => {
+                console.error('发布活动错误:', error);
+                alert('活动发布失败，请重试');
+            });
+        }
+		$("#nav a").on("click", function () {
+		      var position = $(this).parent().position();
+		      var width = $(this).parent().width();
+		      $("#nav .slide1").css({ opacity: 1, left: +position.left, width: width });
+		  });
+		  $("#nav a").on("mouseover", function () {
+		      var position = $(this).parent().position();
+		      var width = $(this).parent().width();
+		      $("#nav .slide2").css({ opacity: 1, left: +position.left, width: width }).addClass("squeeze");
+		  });
+		  $("#nav a").on("mouseout", function () {
+		      $("#nav .slide2").css({ opacity: 0 }).removeClass("squeeze");
+		  });
+		  var currentWidth = $("#nav li:nth-of-type(5) a").parent("li").width();
+		  var current = $("li:nth-of-type(5) a").position();
+		  $("#nav .slide1").css({ left: +current.left, width: currentWidth });
+    </script>
+</body>
+</html>

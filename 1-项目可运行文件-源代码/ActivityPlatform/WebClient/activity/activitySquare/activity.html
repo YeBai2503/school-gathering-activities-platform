@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>活动 | 校聚活动平台</title>
+        <link rel="icon" type="image/jpg" href="../../images/N@_E``IY@4_UBX7HDR9Q_V5.jpg" sizes="32x32">
+        <link rel="stylesheet" href="activity.css">
+    </head>
+    <body>
+        <div>
+           <nav>
+               <ul id="nav">
+                   <li class="slide1"></li>
+                   <li class="slide2"></li>
+                   <li><a href="../../homepage/homepage.html">首页</a></li>
+                   <li><a href="../../activity/activitySquare/activity.html">活动广场</a></li>
+                   <li><a href="../../activity/activityManagement/activityManagement.html">活动管理</a></li>
+                   <li><a href="../../Message/message.html">留言板</a></li>
+                   <li><a href="../../PHP/personal page.html">个人中心</a></li>
+               </ul>
+           </nav>
+        </div>
+        <div class="mainbody-area">
+            <div class="select-area">
+                <!-- 搜索框 -->
+                <div class="search-area"> <!-- 添加搜索框的容器 -->
+                    <input type="text" placeholder="搜索活动..." class="search-input"> <!-- 搜索框输入框 -->
+                    <button class="search-button">搜索</button> <!-- 搜索按钮 -->
+                </div>
+ 
+                <!-- 分类列表 -->
+                <div class="breadcrumb-area">
+                    <link href="//unpkg.com/layui@2.9.16/dist/css/layui.css" rel="stylesheet">
+                    <h3>分类</h3>
+                    <span class="layui-breadcrumb" lay-separator="|" id="category-link">
+                        <a href="" data-category="全部"><cite>全部</cite></a>
+                        <a href="" data-category="体育">体育</a>
+                        <a href="" data-category="学术">学术</a>
+                        <a href="" data-category="艺术">艺术</a>
+                        <a href="" data-category="桌游">桌游</a>
+                        <a href="" data-category="出行">出行</a>
+                        <a href="" data-category="手游">手游</a>
+                        <a href="" data-category="端游">端游</a>
+                        <a href="" data-category="其他">其他</a>
+                    </span>
+                    <h3>状态</h3>
+                    <span class="layui-breadcrumb" lay-separator="|" id="status-link">
+                        <a href="" data-status="全部"><cite>全部</cite></a>
+                        <a href="" data-status="审核中">审核中</a>
+                        <a href="" data-status="报名中">报名中</a>
+                        <a href="" data-status="进行中">进行中</a>
+                        <a href="" data-status="已结束">已结束</a>                        
+                    </span>
+                    <h3>人数</h3>
+                    <span class="layui-breadcrumb" lay-separator="|" id="people-link">
+                        <a href="" data-people="全部"><cite>全部</cite></a>
+                        <a href="" data-people="2">双人</a>
+                        <a href="" data-people="3">3~5人</a>
+                        <a href="" data-people="6">6~10人</a>
+                        <a href="" data-people="11">大型多人</a>
+                    </span>
+                    
+                    <style>
+                        .highlight {
+                            font-weight: bold; /* 让文本加粗 */
+                            color: #007bff;    /* 选择您想要的高亮颜色 */
+                        }
+                    
+                        .breadcrumb-area a {
+                            text-decoration: none; /* 去掉链接下划线 */
+                            padding: 0 5px; /* 为链接添加内边距 */
+                        }
+                    
+                        .breadcrumb-area a:hover {
+                            text-decoration: underline; /* 悬停时下划线 */
+                        }
+                    </style>
+                    <script src="//unpkg.com/layui@2.9.16/dist/layui.js"></script>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function () {
+                            // 默认高亮“全部”链接
+                            const attributes = ['category', 'status', 'people'];
+
+                            attributes.forEach(attr => {
+                                const highlightLink = document.querySelector(`.breadcrumb-area a[data-${attr}="全部"]`);
+                                if (highlightLink) {
+                                    highlightLink.classList.add('highlight');
+                                }
+                            });
+
+                    
+                            // 添加点击事件
+                            const categoryLinks = document.querySelectorAll('#category-link a');
+                            const statusLinks = document.querySelectorAll('#status-link a');
+                            const peopleLinks = document.querySelectorAll('#people-link a');
+                    
+                            // 处理类别链接
+                            categoryLinks.forEach(link => {
+                                link.addEventListener('click', function (event) {
+                                    event.preventDefault(); // 防止链接的默认行为
+                    
+                                    // 清除其他链接的高亮样式
+                                    categoryLinks.forEach(l => l.classList.remove('highlight'));
+                                    // 添加高亮样式到当前链接
+                                    this.classList.add('highlight');
+                                });
+                            });
+                    
+                            // 处理状态链接
+                            statusLinks.forEach(link => {
+                                link.addEventListener('click', function (event) {
+                                    event.preventDefault(); // 防止链接的默认行为
+                    
+                                    // 清除其他链接的高亮样式
+                                    statusLinks.forEach(l => l.classList.remove('highlight'));
+                                    // 添加高亮样式到当前链接
+                                    this.classList.add('highlight');
+                                });
+                            });
+                    
+                            // 处理人数链接
+                            peopleLinks.forEach(link => {
+                                link.addEventListener('click', function (event) {
+                                    event.preventDefault(); // 防止链接的默认行为
+                    
+                                    // 清除其他链接的高亮样式
+                                    peopleLinks.forEach(l => l.classList.remove('highlight'));
+                                    // 添加高亮样式到当前链接
+                                    this.classList.add('highlight');
+                                });
+                            });
+                        });
+                    </script>
+                </div>
+            </div>
+                
+            <!-- 活动列表 -->
+            <div class="activity-list">
+                <h2>无搜索结果</h2>
+                <div class="activity-item" data-url="../activityDetails/activityDetails.html">
+                    <div class="activity-img">
+                        <img src="../activityImage/狼人杀.jpg" alt="狼人杀" />
+                    </div>
+                    <div class="activity-details" >
+                        <h2>暂无网络</h2>
+                        <p>发布人: 查无此人</p>
+                        <p>时间: 1970年1月1日</p>
+                        <p>人数: 999人</p>
+                        <p>地点: 无</p>
+                        <p>类型: 其他</p>
+                    </div>
+                </div>
+                
+            </div>
+            
+            <!-- 返回顶部按钮 -->
+            <button class="back-to-top" id="backToTop">返回顶部</button>
+            
+
+
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script>
+            // 回到顶部按钮
+            const backToTopButton = document.getElementById('backToTop');
+            
+            window.onscroll = function() {
+                if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                    backToTopButton.style.display = 'block'; // 显示按钮
+                } else {
+                    backToTopButton.style.display = 'none'; // 隐藏按钮
+                }
+            };
+            
+            backToTopButton.addEventListener('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth' // 平滑滚动
+                });
+            });
+
+            // 函数：格式化日期以去掉秒数
+            function formatDate(dateString) {
+                const date = new Date(dateString);
+                if (isNaN(date)) {
+                    return '未设置'; // 如果日期无效，返回“未设置”
+                }
+                
+                // 格式化为 YYYY-MM-DD HH:MM
+                const year = date.getFullYear();
+                const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从 0 开始，所以需要加 1
+                const day = date.getDate().toString().padStart(2, '0');
+                const hours = date.getHours().toString().padStart(2, '0');
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+
+                return `${year}-${month}-${day} ${hours}:${minutes}`; // 返回格式化的字符串
+            }
+
+
+
+
+            //活动搜索
+            document.addEventListener("DOMContentLoaded", function () {
+                const activityList = document.querySelector('.activity-list');
+                const searchInput = document.querySelector('.search-input'); // 选择搜索框
+                const searchButton = document.querySelector('.search-button'); // 选择搜索按钮
+                
+                // 初始化存储当前选择的分类、状态和人数
+                let currentCategory = '全部';
+                let currentStatus = '全部';
+                let currentPeople = '全部';
+
+                // 加载活动数据的函数
+                function loadActivities(keyword = '', category = '', status = '', people = '') {
+                    activityList.innerHTML = ''; // 清空活动列表内容
+
+                    // 根据是否有分类，选择合适的URL
+                    let url = 'http://192.168.1.43:8080/activities/searchbyfour';
+                    const queryParams = [];
+
+                    // 添加搜索关键词
+                    if (keyword) {
+                        queryParams.push(`keyword=${encodeURIComponent(keyword)}`); // 添加搜索关键词参数
+                    }
+                    
+                    // 添加分类参数，确保不传递"全部"
+                    if (category && category !== '全部') {
+                        queryParams.push(`type=${encodeURIComponent(category)}`); // 添加分类参数
+                    }
+                    // 添加状态参数，确保不传递"全部"
+                    if (status && status !== '全部') {
+                        queryParams.push(`status=${encodeURIComponent(status)}`); // 添加状态参数
+                    }
+                    // 添加人数参数，确保不传递"全部"
+                    if (people && people !== '全部') {
+                        if (people === '2') {
+                            queryParams.push(`minCeiling=2`);
+                            queryParams.push(`maxCeiling=2`);
+                        } else if (people === '3') {
+                            queryParams.push(`minCeiling=3`);
+                            queryParams.push(`maxCeiling=5`);
+                        } else if (people === '6') {
+                            queryParams.push(`minCeiling=6`);
+                            queryParams.push(`maxCeiling=10`);
+                        } else if (people === '11') {
+                            queryParams.push(`minCeiling=11`);
+                            queryParams.push(`maxCeiling=9999`);
+                        }
+                    }
+
+                    // 检查查询参数，决定是否修改 URL
+                    if (queryParams.length > 0) {
+                        url += '?' + queryParams.join('&'); // 构建完整的请求 URL
+                    }
+
+                    // 发起请求活动的 API
+                    fetch(url)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('网络响应错误');
+        }
+        return response.json();
+    })
+    .then(result => {
+        if (result.code === 200) {
+            const activities = result.data; // 获取活动列表
+
+            // 检查是否有活动数据
+            if (Array.isArray(activities) && activities.length > 0) {
+                activities.forEach(activity => {
+                    const activityItem = document.createElement('div');
+                    activityItem.className = 'activity-item';
+                    activityItem.setAttribute('data-url', `../activityDetails/activityDetails.html?activityid=${activity.activityid}`); // 每个项的点击链接
+
+                    // Fetch 当前活动的人数
+                    fetch(`http://192.168.1.43:8080/event/${activity.activityid}/count`)
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('网络响应错误');
+                            }
+                            return response.json();
+                        })
+                        .then(countResult => {
+                            if (countResult.code === 200) {
+                                const peopleNow = countResult.data; // 获取当前人数
+                                const participantCount = peopleNow; // 假设 peopleNow 代表当前参与人数
+                                
+                                // 使用响应中的数据填充活动项
+                                activityItem.innerHTML = `
+                                    <div class="activity-img">
+                                        <img src="${activity.profileimageurl || 'default_image.png'}" alt="${activity.activityname}" />
+                                    </div>
+                                    <div class="activity-details">
+                                        <h2>${activity.activityname}</h2>
+                                        <p>发布人: ${activity.headusername}</p>
+                                        <p>人数: ${participantCount}/${activity.maxceiling}人</p>
+                                        <p>类型: ${activity.type}</p>
+                                        <p>地点: ${activity.location || '未设置'}</p>
+                                        <p>开始时间: ${formatDate(activity.timeproceed1 || '未设置')}</p>
+                                    </div>
+                                `;
+
+                                activityList.appendChild(activityItem);
+                            } else {
+                                console.error('获取当前人数失败:', countResult.message);
+                                // 如果没有返回一个有效的值，可以给出一个默认值
+                                activityItem.innerHTML = `
+                                    <div class="activity-img">
+                                        <img src="${activity.profileimageurl || 'default_image.png'}" alt="${activity.activityname}" />
+                                    </div>
+                                    <div class="activity-details">
+                                        <h2>${activity.activityname}</h2>
+                                        <p>发布人: ${activity.headusername}</p>
+                                        <p>人数: 0/${activity.maxceiling}人</p> <!-- 默认人数为0，表示获取失败 -->
+                                        <p>类型: ${activity.type}</p>
+                                        <p>地点: ${activity.location || '未设置'}</p>
+                                        <p>开始时间: ${formatDate(activity.timeproceed1 || '未设置')}</p>
+                                    </div>
+                                `;
+                                activityList.appendChild(activityItem);
+                            }
+                        })
+                        .catch(countError => {
+                            console.error('获取人数时发生错误:', countError);
+                            activityItem.innerHTML = `
+                                <div class="activity-img">
+                                    <img src="${activity.profileimageurl || 'default_image.png'}" alt="${activity.activityname}" />
+                                </div>
+                                <div class="activity-details">
+                                    <h2>${activity.activityname}</h2>
+                                    <p>发布人: ${activity.headusername}</p>
+                                    <p>人数: 出现错误</p>
+                                    <p>类型: ${activity.type}</p>
+                                    <p>地点: ${activity.location || '未设置'}</p>
+                                    <p>开始时间: ${formatDate(activity.timeproceed1 || '未设置')}</p>
+                                </div>
+                            `;
+                            activityList.appendChild(activityItem);
+                        });
+                });
+
+               
+            } else {
+                // 如果没有活动数据
+                activityList.innerHTML = '<p>当前没有活动报名。</p>';
+            }
+        } else {
+            console.error('获取活动数据失败:', result.message);
+            activityList.innerHTML = `<h2>暂无结果。</h2>`; // 显示错误消息
+        }
+    })
+    .catch(error => {
+        console.error('获取活动数据时发生错误:', error);
+        activityList.innerHTML = '<p>网络错误，请稍后再试。</p>'; // 显示网络错误
+    });
+                }
+        
+                // 初始化加载所有活动
+                loadActivities(); // 加载时显示所有活动
+
+
+                activityList.addEventListener('click', function(event) {
+                    // 检查事件目标是否是活动项
+                    const activityItem = event.target.closest('.activity-item');
+                    if (activityItem) {
+                        const url = activityItem.getAttribute('data-url');
+                        console.log("点击了activity项，目标URL是:", url);
+                        if (url) {
+                            window.location.href = url; // 跳转
+                        }
+                    }
+                });
+        
+                // 绑定搜索按钮事件
+                searchButton.addEventListener('click', () => {
+                    loadActivities(searchInput.value.trim(), currentCategory, currentStatus, currentPeople); // 传递搜索关键词和当前分类、状态、人数
+                });
+        
+                // 监听搜索框的键盘事件
+                searchInput.addEventListener('keypress', (event) => {
+                    if (event.key === 'Enter') {
+                        loadActivities(searchInput.value.trim(), currentCategory, currentStatus, currentPeople); // 传递搜索关键词和当前分类、状态、人数
+                    }
+                });
+        
+                // 监听分类链接点击事件
+                const categoryLinks = document.querySelectorAll('#category-link a');
+                categoryLinks.forEach(link => {
+                    link.addEventListener('click', function (event) {
+                        event.preventDefault(); // 防止链接的默认行为
+                        // 设置当前分类
+                        currentCategory = this.getAttribute('data-category'); // 获取被点击的分类
+                        // 高亮当前分类
+                        categoryLinks.forEach(l => l.classList.remove('highlight'));
+                        this.classList.add('highlight');
+                        // 发起活动加载请求
+                        loadActivities(searchInput.value.trim(), currentCategory, currentStatus, currentPeople);
+                    });
+                });
+        
+                // 监听状态链接点击事件
+                const statusLinks = document.querySelectorAll('#status-link a');
+                statusLinks.forEach(link => {
+                    link.addEventListener('click', function (event) {
+                        event.preventDefault(); // 防止链接的默认行为
+                        // 设置当前状态
+                        currentStatus = this.getAttribute('data-status'); // 获取被点击的状态
+                        // 高亮当前状态
+                        statusLinks.forEach(l => l.classList.remove('highlight'));
+                        this.classList.add('highlight');
+                        // 发起活动加载请求
+                        loadActivities(searchInput.value.trim(), currentCategory, currentStatus, currentPeople);
+                    });
+                });
+        
+                // 监听人数链接点击事件
+                const peopleLinks = document.querySelectorAll('#people-link a');
+                peopleLinks.forEach(link => {
+                    link.addEventListener('click', function (event) {
+                        event.preventDefault(); // 防止链接的默认行为
+                        // 设置当前人数
+                        currentPeople = this.getAttribute('data-people'); // 获取被点击的人数
+                        // 高亮当前人数
+                        peopleLinks.forEach(l => l.classList.remove('highlight'));
+                        this.classList.add('highlight');
+                        // 发起活动加载请求
+                        loadActivities(searchInput.value.trim(), currentCategory, currentStatus, currentPeople);
+                    });
+                });
+            });
+
+
+      $("#nav a").on("click", function () {
+            var position = $(this).parent().position();
+            var width = $(this).parent().width();
+            $("#nav .slide1").css({ opacity: 1, left: +position.left, width: width });
+        });
+        $("#nav a").on("mouseover", function () {
+            var position = $(this).parent().position();
+            var width = $(this).parent().width();
+            $("#nav .slide2").css({ opacity: 1, left: +position.left, width: width }).addClass("squeeze");
+        });
+        $("#nav a").on("mouseout", function () {
+            $("#nav .slide2").css({ opacity: 0 }).removeClass("squeeze");
+        });
+        var currentWidth = $("#nav li:nth-of-type(4) a").parent("li").width();
+        var current = $("li:nth-of-type(4) a").position();
+        $("#nav .slide1").css({ left: +current.left, width: currentWidth });
+
+                        
+        </script>
+
+
+    </body>
+</html>

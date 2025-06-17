@@ -1,0 +1,285 @@
+/* 基本重置 */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif; /* 字体设置 */
+    background-image: url("../../images/wallhaven-nz9k8y.jpg");
+}
+
+/* Logo 样式 */
+.logo img {
+    width: 50px; /* 设置 logo 图片的宽度，您可以根据需要进行调整 */
+    height: auto; /* 保持比例 */
+    margin-right: 10px; /* logo 与导航项之间的间距 */
+}
+
+nav {
+                   display: flex;
+                   justify-content: center;
+                   align-items: center;
+                   height: 100px;
+               }
+       
+               #nav {
+                   position: relative;
+                   border: none;
+                   border-radius: 10em;
+                   display: flex;
+                   list-style: none;
+                   background: linear-gradient(45deg, #f6d365, #fda085);
+                   box-shadow: 20px 40px 40px #00000033;
+                   padding: 10px;
+               }
+       
+               #nav li a {
+                   position: relative;
+                   padding: 15px 50px;
+                   font: 500 24px '微软雅黑';
+                   border: none;
+                   outline: none;
+                   color: rgb(255, 255, 255);
+                   display: inline-block;
+                   text-decoration: none;
+                   z-index: 3;
+               }
+       
+               .slide1,
+               .slide2 {
+                   position: absolute;
+                   display: inline-block;
+                   height: 60px;
+                   border-radius: 10em;
+                   transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
+               }
+       
+               .slide1 {
+                   background-color: rgb(250, 236, 125);
+                   z-index: 2;
+               }
+       
+               .slide2 {
+                   opacity: 0;
+                   background-color: rgba(255, 241, 187, 0.5);
+                   z-index: 1;
+                   box-shadow: 0 0 20px #ffffffaa inset;
+               }
+       
+               .squeeze {
+                   transform: scale(0.9);
+               }
+
+
+
+
+.mainbody-area
+{
+    
+    padding: 20px 0; /* 顶部和底部的内边距 */
+
+    width: 100%;
+    min-height: 100vh;
+    
+      
+}
+
+.select-area
+{
+    background-color: #fff; /* 白色背景 */
+    margin: 0 auto; /* 居中对齐 */
+    padding: 10px; /* 内容内边距 */
+    border-radius: 10px; /* 圆角边框 */
+    max-width: 1000px; /* 最大宽度, 根据需要调整大小 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+    margin-bottom: 20px; /* 与下面内容的间距 */
+}
+
+/*搜索框*/
+.search-area {
+    display: flex; /* 使用 flexbox 布局，使输入框和按钮并排 */
+    justify-content: center; /* 水平居中 */
+    margin-bottom: 10px; /* 与下面内容的间距 */
+	
+}
+
+.search-input {
+    margin-top: 10px; /* 与上面的内容的间距 */
+    width: 350px; /* 增加输入框的宽度 */
+    padding: 15px; /* 增加内边距，使输入框更大 */
+    border: 3px solid #ccc; /* 边框样式 */
+    border-radius: 20px 0px 0px 20px; /* 圆角，左侧圆角 */
+    font-size: 16px; /* 字体大小 */
+    outline: none; /* 去掉聚焦边框 */
+    transition: border-color 0.3s; /* 边框颜色过渡 */
+}
+
+.search-input:focus {
+    border-color: #faea3f; /* 聚焦时改变边框颜色 */
+}
+
+.search-button {
+    margin-top: 10px; /* 与上面的内容的间距 */
+    padding: 15px 20px; /* 内边距，可以和输入框一致 */
+    border: none; /* 去掉默认边框 */
+    background-color: #faea3f; /* 按钮背景色 */
+    color: rgb(107, 102, 102); /* 按钮文字颜色 */
+    border-radius: 0 20px 20px  0; /* 圆角，右侧圆角 */
+    cursor: pointer; /* 鼠标悬停时指针变化 */
+    transition: background-color 0.3s; /* 背景颜色过渡 */
+    font-size: medium;
+    font-weight: 500;
+}
+
+.search-button:hover {
+    background-color: #ccc; /* 鼠标悬停时按钮颜色 */
+}
+
+/* 活动列表 */
+.activity-list {
+    display: flex;
+    flex-wrap: wrap; /* 允许折行 */
+    justify-content: flex-start; /* 均匀分布每个活动项 */
+    margin-top: 20px; /* 添加顶部间距 */
+    gap: 20px; /* 设置活动项之间的间距 */
+    background-color: #fff; /* 白色背景 */
+    margin: 0 auto; /* 居中对齐 */
+    padding: 10px; /* 内容内边距 */
+    border-radius: 10px; /* 圆角边框 */
+    max-width: 1000px; /* 最大宽度, 根据需要调整大小 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+	
+}
+
+.activity-item {
+    background-color: white; /* 白色背景 */
+    border-radius: 10px; /* 圆角边框 */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    margin-bottom: 20px; /* 每个活动项的底部间距 */
+    padding: 20px; /* 内边距 */
+    width: calc(25% - 15px); /* 四个活动项每行，减去间隙 */
+    box-sizing: border-box; /* 确保宽度和高度计算包含内边距和边框 */
+    font-weight: 550;
+}
+
+.activity-img img {
+    width: 200px; /* 图片宽度100% */
+    border-radius: 10px; /* 圆角图片 */
+    object-fit: cover; /* 保持图片比例并填满容器，同时会裁剪 */
+    height: 200px; /* 设置固定高度为150px */
+    overflow: hidden; /* 隐藏溢出部分 */
+    
+}
+
+.activity-details p {
+    margin: 5px 0; /* 每个段落的上下间距 */
+}
+
+.back-to-top {
+    position: fixed; /* 固定定位 */
+    bottom: 20px; /* 距离底部20px */
+    right: 20px; /* 距离右侧20px */
+    background-color: #faea3f; /* 按钮背景色 */
+    border: none; /* 无边框 */
+    padding: 10px 15px; /* 内边距 */
+    border-radius: 5px; /* 圆角效果 */
+    cursor: pointer; /* 鼠标悬浮出现手型 */
+    display: none; /* 默认隐藏按钮 */
+    z-index: 1000; /* 确保按钮在最上层 */
+    font-weight: bold;
+    width: 100px;
+    height: 50px;
+    font-size: medium;
+}
+
+.back-to-top:hover {
+    background-color: #ccc; /* 悬浮时改变按钮颜色 */
+}
+
+
+.activityDetails {
+    max-width: 1000px; /* 最大宽度 */
+    margin: 20px auto; /* 居中对齐 */
+    padding: 20px;
+    background-color: #fff; /* 白色背景 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    position: relative; /* 用于图片定位 */
+
+    border-radius: 10px; /* 圆角边框 */
+    margin-bottom: 20px; /* 与下面内容的间距 */
+    margin-top: 3px;
+	background: rgba(255, 255, 255, 0.6);
+	backdrop-filter: blur(5px);
+}
+
+.cover-image {
+    position: absolute; /* 定位图片 */
+    top: 20px; /* 距离顶部20px */
+    right: 20px; /* 距离右侧20px */
+    width: 300px; /* 图片宽度 */
+    height: auto; /* 高度自适应 */
+    border-radius: 5px; /* 圆角图片 */
+    max-height: 350px; /* 最大高度 */
+}
+
+.details-content {
+    margin-right: 170px; /* 与右侧图片留出空间 */
+    padding-right: 20px; /* 添加右侧内边距 */
+	
+}
+
+.details-content h2 {
+    margin: 0 0 10px 0; /* 上边距和下边距 */
+}
+
+.rate-section {
+    position: absolute; /* 定位图片 */
+    bottom: 20px; /* 距离底部20px */
+    right: 80px; /* 距离右侧20px */
+    font-size: 25px;
+
+}
+
+.register-section {
+    margin-top: 20px; /* 上边距 */
+}
+
+.register-section input {
+    width: 500px; /* 输入框宽度 */
+    margin-right: 0px; /* 输入框与按钮间距 */
+    padding: 5px; /* 内边距 */
+    height: 40px; /* 高度 */
+    border-radius: 10px; /* 圆角效果 */
+	background: rgba(255, 255, 255, 0.3);
+	backdrop-filter: blur(5px);
+    
+}
+
+.register-button {
+    padding: 10px 20px; /* 内边距 */
+    background-color: #faea3f; /* 按钮背景色 */
+    border: none; /* 无边框 */
+    border-radius: 10px; /* 圆角效果 */
+    cursor: pointer; /* 鼠标悬浮出现手型 */
+    height: 55px; /* 高度 */
+   font-size: 15px;
+   background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+                
+}
+
+.register-button:hover {
+    background-color: #ccc; /* 悬浮时改变按钮颜色 */
+}
+
+.more-detail {
+    margin-top: 20px; /* 上边距 */
+    padding: 20px; /* 内边距 */
+    border: 1px solid #ccc; /* 边框样式 */
+
+    max-width: 1000px; /* 最大宽度 */
+    margin: 20px auto; /* 居中对齐 */
+    background-color: #fff; /* 白色背景 */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+    position: relative; /* 用于图片定位 */
+    border-radius: 10px; /* 圆角边框 */
+    margin-bottom: 20px; /* 与下面内容的间距 */
+	background: rgba(255, 255, 255, 0.5);
+	backdrop-filter: blur(5px);
+}

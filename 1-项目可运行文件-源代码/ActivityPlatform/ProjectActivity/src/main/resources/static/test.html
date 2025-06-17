@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ongoing Registration Activities</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .activity {
+            border: 1px solid #e1e1e1;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .activity:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .activity-title {
+            font-size: 1.8em;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #34495e;
+        }
+
+        .activity-details p {
+            margin: 5px 0;
+            padding: 5px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+        }
+
+        .activity-details p strong {
+            color: #2c3e50;
+        }
+
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Ongoing Registration Activities</h1>
+<div id="activities-container">
+    <!-- 活动信息将显示在这里 -->
+</div>
+<div id="error-message" class="error"></div>
+
+<script>
+    // 定义API端点
+    const apiEndpoint = 'http://localhost:8080/activities/ongoingRegistrations';
+
+    // 使用fetch API获取活动数据
+    fetch(apiEndpoint)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            const activitiesContainer = document.getElementById('activities-container');
+            const errorMessage = document.getElementById('error-message');
+
+            // 检查API返回的状态码
+            if (data.code === 200) {
+                const activities = data.data;
+                if (activities.length === 0) {
+                    errorMessage.textContent = '目前没有“报名中”的活动。';
+                } else {
+                    activities.forEach(activity => {
+                        // 创建一个活动的显示块
+                        const activityElement = document.createElement('div');
+                        activityElement.classList.add('activity');
+
+                        // 添加活动名
+                        const titleElement = document.createElement('div');
+                        titleElement.classList.add('activity-title');
+                        titleElement.textContent = activity.activityname;
+                        activityElement.appendChild(titleElement);
+
+                        // 添加活动详情
+                        const detailsElement = document.createElement('div');
+                        detailsElement.classList.add('activity-details');
+                        detailsElement.innerHTML = `
+                                <p><strong>类型:</strong> ${activity.type}</p>
+                                <p><strong>最大参会人数:</strong> ${activity.maxceiling}</p>
+                                <p><strong>状态:</strong> ${activity.status}</p>
+                                <p><strong>报名开始时间:</strong> ${new Date(activity.timesignup1).toLocaleString()}</p>
+                                <p><strong>报名截至时间:</strong> ${new Date(activity.timesignup2).toLocaleString()}</p>
+                                <p><strong>活动开始时间:</strong> ${new Date(activity.timeproceed1).toLocaleString()}</p>
+                                <p><strong>活动截至时间:</strong> ${new Date(activity.timeproceed2).toLocaleString()}</p>
+                                <p><strong>评分:</strong> ${activity.score}</p>
+                            `;
+                        activityElement.appendChild(detailsElement);
+
+                        // 将活动块添加到容器中
+                        activitiesContainer.appendChild(activityElement);
+                    });
+                }
+            } else {
+                errorMessage.textContent = '获取活动信息失败，请稍后重试。';
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching activities:', error);
+            const errorMessage = document.getElementById('error-message');
+            errorMessage.textContent = '获取活动信息时发生错误。';
+        });
+</script>
+</body>
+</html>

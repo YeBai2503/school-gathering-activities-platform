@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- 定义网页使用的字符编码 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 设置视窗宽度，适应不同设备 -->
+    <title>忘记密码</title> <!-- 网页标题 -->
+    <link rel="icon" type="image/png" href="../images/N@_E%60%60IY@4_UBX7HDR9Q_V5.jpg" sizes="32x32"> <!-- 设置网页图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- 引入 FontAwesome 图标库 -->
+    <style>
+        /* 整体样式 */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            overflow: hidden; /* 隐藏溢出内容 */
+        }
+        body {
+            background: url("../images/wallhaven-9mxpx1.png") no-repeat center center fixed; /* 背景图片 */
+            background-size: cover; /* 背景图片覆盖整个屏幕 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            min-height: 100vh;
+        }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* 黑色半透明遮罩 */
+            z-index: -1;
+        }
+
+        /* 容器样式 */
+        .container {
+            background-color: rgba(255, 255, 255, 0.4); /* 更透明的背景颜色 */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* 阴影 */
+            width: 300px;
+            backdrop-filter: blur(6px); /* 模糊效果 */
+            border: 2px solid rgba(255, 255, 255, 0.3); /* 白色边框 */
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* 动画效果 */
+            font-family: Arial, sans-serif;
+        }
+
+        /* 标题样式 */
+        .container h2 {
+            margin-top: 0; /* 上移标题 */
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* 悬浮效果 */
+        .container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .container a {
+            color: white;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 输入框样式 */
+        .container .input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+            text-align: left; /* 左对齐标签 */
+        }
+
+        .container .input-wrapper i {
+            position: absolute;
+            left: 10px;
+            bottom: 12px; /* 下移图标 */
+            color: #fff; /* 图标颜色改为白色 */
+            font-size: 16px;
+            transition: all 0.3s ease; /* 动态效果 */
+        }
+
+        .container .input-wrapper input[type="email"] {
+            width: 80%;
+            padding: 10px 30px; /* 输入框内边距 */
+            border: none;
+            border-radius: 20px; /* 圆滑边框 */
+            background-color: transparent; /* 雾面玻璃效果 */
+            backdrop-filter: blur(1px);
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            font-family: Arial, sans-serif;
+        }
+
+        .container .input-wrapper input[type="email"]:focus {
+            background-color: rgba(255, 255, 255, 0.1); /* 聚焦时的背景颜色 */
+            outline: none; /* 去掉默认蓝色边框 */
+        }
+
+        .container .input-wrapper input[type="email"]:focus + i {
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+            transform: translateY(-1px); /* 图标上移 */
+        }
+
+        /* 按钮样式 */
+        .container button {
+            width: 100%;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 20px; /* 圆滑边框 */
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+        }
+
+        .container button:hover {
+            background-color: #0056b3; /* 按钮悬停时的颜色 */
+        }
+
+        /* 错误消息样式 */
+        .error {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 切换页面链接样式 */
+        .switch-page {
+            text-align: center;
+            margin-top: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+
+        .switch-page a {
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .switch-page a:hover {
+            text-decoration: underline; /* 悬浮时下划线 */
+        }
+
+        /* 头部样式 */
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.4);
+            padding: 10px 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(6px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            z-index: 1;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        .header .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .header .logo h1 {
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部内容 -->
+    <div class="header">
+        <a href="#" class="logo">
+            <img src="../images/N@_E``IY@4_UBX7HDR9Q_V5.jpg" alt="Logo"> <!-- 网站Logo -->
+            <h1>校聚活动平台</h1> <!-- 网站标题 -->
+        </a>
+    </div>
+
+    <!-- 忘记密码表单容器 -->
+    <div class="container">
+        <h2>忘记密码</h2> <!-- 标题 -->
+        <form id="forgotPasswordForm">
+            <div class="input-wrapper">
+                <label for="email">请输入您的邮箱：</label> <!-- 邮箱标签 -->
+                <input type="email" id="email" placeholder="邮箱" required> <!-- 邮箱输入框 -->
+                <i class="fa fa-envelope"></i> <!-- 邮箱图标 -->
+            </div>
+            <button type="submit">确认邮箱</button> <!-- 提交按钮 -->
+            <p class="error" id="forgotError"></p> <!-- 错误消息 -->
+        </form>
+        <!-- 切换页面链接 -->
+        <div class="switch-page">
+            <p>又想起密码了？<a href="login.html">返回登录</a></p> <!-- 返回登录链接 -->
+            <p>不要之前的账号了？<a href="register.html">再新建一个</a></p> <!-- 新建账号链接 -->
+        </div>
+    </div>
+
+    <script>
+        // 忘记密码表单提交事件
+        document.getElementById('forgotPasswordForm').addEventListener('submit', async function (event) {
+            event.preventDefault(); // 防止表单默认提交
+            const email = document.getElementById('email').value;
+
+            try {
+                // 获取用户密码
+                const passwordResponse = await fetch(`http://192.168.1.43:8080/auth/getPasswordByEmail?email=${encodeURIComponent(email)}`);
+                const passwordResult = await passwordResponse.json();
+
+                console.log('Password API Response:', passwordResult); // 打印完整的API响应
+
+                if (passwordResponse.ok && passwordResult.code === 200) {
+                    const userPassword = passwordResult.data; // 假设服务器返回的密码字段为 data
+
+                    if (!userPassword) {
+                        document.getElementById('forgotError').textContent = '无法获取密码，请检查邮箱是否正确或联系管理员。';
+                        return;
+                    }
+
+                    console.log('Retrieved password:', userPassword); // 在控制台打印密码
+                    const textContent = `收好你的密码，别再搞丢咯，密码也可以在个人中心修改！你的密码：${userPassword}`;
+                    const encodedTextContent = encodeURIComponent(textContent);
+                    // 发送邮件
+                    const mailResponse = await fetch(`http://192.168.1.43:8080/mail/sendTextMail?to=${encodeURIComponent(email)}&subject=${encodeURIComponent('你的密码来咯！')}&text=${encodedTextContent}`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    });
+
+                    if (mailResponse.ok) {
+                        alert('密码已发送到您的邮箱');
+                    } else {
+                        document.getElementById('forgotError').textContent = '邮件发送失败，请稍后重试';
+                    }
+                } else {
+                    document.getElementById('forgotError').textContent = '无法找到该邮箱对应的账号';
+                }
+            } catch (error) {
+                console.error('Error:', error); // 在控制台中记录错误
+                document.getElementById('forgotError').textContent = '网络错误，请稍后重试';
+            }
+        });
+    </script>
+</body>
+</html>

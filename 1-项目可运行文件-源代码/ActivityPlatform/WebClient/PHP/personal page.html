@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - 校聚</title>
+    <link rel="icon" type="image/png" href="../images/N@_E%60%60IY@4_UBX7HDR9Q_V5.jpg" sizes="32x32">
+    <link rel="stylesheet" href="css/style.css"> <!-- 引入 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            background-image: url("../images/wallhaven-nz9k8y.jpg");
+            height: 800px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100px;
+        }
+
+        #nav {
+            position: relative;
+            border: none;
+            border-radius: 10em;
+            display: flex;
+            list-style: none;
+            background: linear-gradient(45deg, #f6d365, #fda085);
+            box-shadow: 20px 40px 40px #00000033;
+            padding: 10px;
+        }
+
+        #nav li a {
+            position: relative;
+            padding: 15px 50px;
+            font: 500 24px '微软雅黑';
+            border: none;
+            outline: none;
+            color: rgb(255, 255, 255);
+            display: inline-block;
+            text-decoration: none;
+            z-index: 3;
+        }
+
+        .slide1,
+        .slide2 {
+            position: absolute;
+            display: inline-block;
+            height: 60px;
+            border-radius: 10em;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1.05);
+        }
+
+        .slide1 {
+            background-color: rgb(250, 236, 125);
+            z-index: 2;
+        }
+
+        .slide2 {
+            opacity: 0;
+            background-color: rgba(255, 241, 187, 0.5);
+            z-index: 1;
+            box-shadow: 0 0 20px #ffffffaa inset;
+        }
+
+        .squeeze {
+            transform: scale(0.9);
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(3px);
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-header h2 {
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .profile-details {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .profile-details div {
+            display: flex;
+            align-items: center;
+        }
+
+        .profile-details label {
+            font-size: 18px;
+            font-weight: bold;
+            width: 35%; /* 标签宽度 */
+            text-align: right;
+            margin-right: 20px;
+			
+        }
+
+        .profile-details input {
+            width: 25%;
+            padding: 8px;
+            border: 1px solid #969696;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            border-radius: 20px;
+
+			background: rgba(255, 255, 255, 0.3);
+			backdrop-filter: blur(5px);
+        }
+
+        .profile-details input[readonly] {
+            background-color: #f5f5f5;
+			background: rgba(255, 255, 255, 0.1);
+			backdrop-filter: blur(1px);
+        }
+
+        /* 全局按钮样式 */
+        button {
+            padding: 15px 25px;
+            border: unset;
+            border-radius: 15px;
+            color: #212121;
+            z-index: 1;
+            background: #e8e8e8;
+            position: relative;
+            font-weight: 1000;
+            font-size: 17px;
+            -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+            box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+            transition: all 250ms;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 0;
+            border-radius: 15px;
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+                        
+            z-index: -1;
+            -webkit-box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+            box-shadow: 4px 8px 19px -3px rgba(0, 0, 0, 0.27);
+            transition: all 250ms
+        }
+
+        button:hover {
+            color: #e8e8e8;
+        }
+
+        button:hover::before {
+            width: 100%;
+        }
+
+        .edit-button {
+            margin-left: 10px;
+        }
+
+        .delete-button,
+        .logout-button,
+        .change-button {
+            width: fit-content; /* 使按钮宽度适应内容 */
+            margin: 0 auto; /* 水平居中 */
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .modal-content input {
+            width: 30%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .hint {
+            margin-top: -15px;
+            margin-bottom: 10px;
+            font-size: 12px;
+            color: #999;
+            margin-left: 37%;
+        }
+
+        #username,
+        #user-id,
+        #user-rating {
+            color: #999;
+            font-size: 18px;
+            font-weight: bold;
+        }
+		.activity-tag {
+		    display: inline-block;
+		    padding: 8px 16px;
+		    margin: 5px;
+		    border-radius: 20px; /* 圆角 */
+		    background: linear-gradient(45deg, #f6d365, #fda085); /* 渐变背景颜色 */
+		    color: #fff; /* 字体颜色 */
+		    font-weight: bold; /* 字体加粗 */
+		    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+		    transition: transform 0.3s, box-shadow 0.3s; /* 添加过渡效果 */
+		}
+		
+		.activity-tag:hover {
+		    transform: scale(1.05); /* 鼠标悬停时放大 */
+		    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* 鼠标悬停时增加阴影 */
+		}
+    </style>
+</head>
+<body>
+    <nav>
+        <ul id="nav">
+            <li class="slide1"></li>
+            <li class="slide2"></li>
+            <li><a href="../homepage/homepage.html" >首页</a></li>
+            <li><a href="../activity/activitySquare/activity.html">活动广场</a></li>
+            <li><a href="../activity/activityManagement/activityManagement.html">活动管理</a></li>
+            <li><a href="../Message/message.html">留言板</a></li>
+            <li><a href="../PHP/personal page.html">个人中心</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <div class="profile-header">
+            <h2>个人中心</h2>
+        </div>
+        <div class="profile-details">
+				<div id="user-id" style="display:none;"></div>
+            
+            <div>
+                <label for="username">用户名:</label>
+                <span id="username">zhangsan_123</span>
+            </div>
+            <div>
+                <label for="user-rating">评分:</label>
+                <span id="user-rating">81</span>
+            </div>
+            <div>
+                <label for="nickname">昵称:</label>
+                <input type="text" id="nickname" name="nickname" value="张三" maxlength="10" readonly>
+                                <button class="edit-button" onclick="toggleEdit('nickname', this, 'nickname')">修改</button>
+                            </div>
+                            <div>
+                                <label for="email">邮箱:</label>
+                                <input type="email" id="email" name="email" value="zhangsan@example.com" readonly>
+                                <button class="edit-button" onclick="toggleEdit('email', this, 'email')">修改</button>
+                            </div>
+                            <div>
+                                <label for="phone">手机号:</label>
+                                <input type="text" id="phone" name="phone" value="12345678901" readonly>
+                                <button class="edit-button" onclick="toggleEdit('phone', this, 'pnumber')">修改</button>
+                            </div>
+                            <div>
+                                <button class="change-button" onclick="openChangePasswordModal()">修改密码</button>
+                            </div>
+                            <div>
+                                <button class="logout-button" onclick="logout()">登出</button>
+                            </div>
+                            <div>
+                                <button class="delete-button" onclick="openModal()">账号注销</button>
+                            </div>
+                        </div>
+                        <div class="activity-list"></div> <!-- 活动列表容器 -->
+                    </div>
+                
+                    <!-- 修改密码的模态窗口 -->
+                    <div id="change-password-modal" class="modal">
+                        <div class="modal-content">
+                            <h3>修改密码</h3>
+                            <div id="step1">
+                                <p>请输入原有密码：</p>
+                                <input type="password" id="old-password" placeholder="原有密码">
+                                <button class="confirm-button" onclick="verifyOldPassword()">下一步</button>
+                            </div>
+                            <div id="step2" style="display:none;">
+                                <p>请输入新密码：</p>
+                                <input type="password" id="new-password" placeholder="新密码">
+                                <button class="confirm-button" onclick="changePassword()">确认修改</button>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- 确认注销账号的模态窗口 -->
+                    <div id="delete-modal" class="modal">
+                        <div class="modal-content">
+                            <h3>确认注销账号</h3>
+                            <p>请输入“我确认注销账号”以确认注销：</p>
+                            <input type="text" id="confirmation-input" placeholder="我确认注销账号">
+                            <button class="confirm-button" onclick="confirmDeletion()">确认</button>
+                        </div>
+                    </div>
+                
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+                    <script>
+                        // URL前缀
+                        const baseUrl = 'http://192.168.1.43:8080';
+                
+                        // 获取用户信息并显示在页面上
+                        document.addEventListener("DOMContentLoaded", function() {
+                            // 尝试从 localStorage 中获取用户 ID
+                            const savedUserId = localStorage.getItem('headid');
+                
+                            if (savedUserId) {
+                                console.log(`欢迎回来，用户ID: ${savedUserId}`);
+                                fetch(`${baseUrl}/auth/showuser/${savedUserId}`)
+                                    .then(response => {
+                                        if (!response.ok) {
+                                            throw new Error('网络响应错误');
+                                        }
+                                        return response.json();
+                                    })
+                                    .then(result => {
+                                        if (result.code === 200) { // 假设成功返回的状态码是200
+                                            const user = result.data;
+                
+                                            document.getElementById('user-id').textContent = user.id;
+                                            document.getElementById('username').textContent = user.username;
+                                            document.getElementById('user-rating').textContent = user.reputation.toString();
+                                            document.getElementById('nickname').value = user.nickname;
+                                            document.getElementById('email').value = user.email;
+                                            document.getElementById('phone').value = user.pnumber;
+                
+                                            // 保存用户 ID 到 localStorage
+                                            const headid = user.id;
+                                            localStorage.setItem('headid', headid);
+                                            console.log(headid);
+                
+                                        } else {
+                                            console.error('获取用户信息失败:', result);
+                                        }
+                                    })
+                                    .catch(error => {
+                                        console.error('Fetch错误:', error);
+                                    });
+                            } else {
+                                console.log('用户未登录或 session 已过期');
+                                // 处理未登录的情况，比如重定向到登录页面
+                            }
+                        });
+                
+                        // JS模板示例：修改电话号码
+                        function updatePnumber(id, pnumber) {
+                            return fetch(`${baseUrl}/auth/${id}/pnumber?pnumber=${pnumber}`, {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                }
+                            }).then(response => response.json());
+                        }
+                
+                        // 注销账号函数
+                        function deleteAccount(id) {
+                            return fetch(`${baseUrl}/auth/${id}`, {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                }
+                            }).then(response => response.json());
+                        }
+                
+                        async function toggleEdit(fieldId, button, apiField) {
+                            const field = document.getElementById(fieldId);
+                            const emailPattern = /^([a-zA-Z0-9]+[_|\.]?)*[a-zA-Z0-9]+@([a-zA-Z0-9]+[_|\.]?)*[a-zA-Z0-9]+\.[a-zA-Z]{2,3}$/;
+                            const phonePattern = /^(13[0-9]|14[01456879]|15[0-35-9]|16[2567]|17[0-8]|18[0-9]|19[0-35-9])\d{8}$/;
+                
+                            if (field.readOnly || field.disabled) {
+                                field.readOnly = false;
+                                field.disabled = false;
+                                field.style.backgroundColor = "#fff";
+                                button.textContent = "保存";
+                            } else {
+                                if (fieldId === 'email' && !emailPattern.test(field.value)) {
+                                    alert('邮箱格式不正确，请重新输入');
+                                    return;
+                                }
+                                if (fieldId === 'phone' && !phonePattern.test(field.value)) {
+                                    alert('手机号格式不正确，请重新输入');
+                                    return;
+                                }
+                
+                                field.readOnly = true;
+                                field.disabled = true;
+                                field.style.backgroundColor = "#f5f5f5";
+                                button.textContent = "修改";
+                
+                                let url, body, response;
+                                const userId = localStorage.getItem('headid'); // 从 localStorage 获取用户 ID
+                                if (apiField === 'nickname') {
+                                    url = `${baseUrl}/auth/${userId}/nickname`;
+                                    body = `nickname=${encodeURIComponent(field.value)}`;
+                                } else if (apiField === 'email') {
+                                    url = `${baseUrl}/auth/${userId}/email`;
+                                    body = `email=${encodeURIComponent(field.value)}`;
+                                } else if (apiField === 'pnumber') {
+                                    const pnumber = field.value;
+                                    url = `${baseUrl}/auth/${userId}/pnumber`;
+                                    body = `pnumber=${encodeURIComponent(pnumber)}`;
+                                }
+                
+                                console.log('URL:', url);
+                                console.log('Request Body:', body);
+                                console.log('Field Value:', field.value);
+                
+                                try {
+                                    response = await fetch(url, {
+                                        method: 'PUT',
+                                        headers: {
+                                            'Content-Type': 'application/x-www-form-urlencoded'
+                                        },
+                                        body: body
+                                    });
+                
+                                    if (!response.ok) {
+                                        const errorText = await response.text();
+                                        console.error('Error Response:', errorText);
+                                        throw new Error(`HTTP error! status: ${response.status} - ${errorText}`);
+                                    }
+                
+                                    const result = await response.json();
+                                    if (result.code === 200) {
+                                        alert('保存成功');
+                                    } else {
+                                        alert(`保存失败: ${result.message}`);
+                                    }
+                                } catch (error) {
+                                    console.error('Error:', error);
+                                    alert('保存失败，请重试');
+                                }
+                            }
+                        }
+                
+                        function openChangePasswordModal() {
+                            // 重置模态窗口内容
+                            document.getElementById('old-password').value = '';
+                            document.getElementById('new-password').value = '';
+                            document.getElementById('step1').style.display = 'block';
+                            document.getElementById('step2').style.display = 'none';
+                
+                            // 显示模态窗口
+                            document.getElementById('change-password-modal').style.display = 'flex';
+                        }
+                
+                        async function verifyOldPassword() {
+                            const userId = localStorage.getItem('headid');
+                            const oldPassword = document.getElementById('old-password').value;
+                
+                            try {
+                                const response = await fetch(`${baseUrl}/auth/showuser/${userId}`);
+                                const result = await response.json();
+                
+                                if (result.code === 200 && result.data.password === oldPassword) {
+                                    document.getElementById('step1').style.display = 'none';
+                                    document.getElementById('step2').style.display = 'block';
+                                } else {
+                                    alert('输入密码错误');
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+                                alert('验证密码失败，请重试');
+                            }
+                        }
+                
+                        async function changePassword() {
+                            const userId = localStorage.getItem('headid');
+                            const newPassword = document.getElementById('new-password').value;
+                
+                            try {
+                                const response = await fetch(`${baseUrl}/auth/${userId}/password`, {
+                                    method: 'PUT',
+                                    headers: {
+                                        'Content-Type': 'application/x-www-form-urlencoded'
+                                    },
+                                    body: `password=${encodeURIComponent(newPassword)}`
+                                });
+                
+                                const result = await response.json();
+                                if (result.code === 200) {
+                                    alert('修改成功');
+                                    document.getElementById('change-password-modal').style.display = 'none';
+                                } else {
+                                    alert(`修改失败: ${result.message}`);
+                                }
+                            } catch (error) {
+                                console.error('Error:', error);
+                                alert('修改密码失败，请重试');
+                            }
+                        }
+                
+                        window.onclick = function(event) {
+                            const modal = document.getElementById('change-password-modal');
+                            if (event.target === modal) {
+                                modal.style.display = 'none';
+                            }
+                        }
+                
+                        function openModal() {
+                            document.getElementById('delete-modal').style.display = 'flex';
+                        }
+                
+                        async function confirmDeletion() {
+                            const confirmationInput = document.getElementById('confirmation-input').value;
+                            const userId = localStorage.getItem('headid'); // 从 localStorage 获取用户 ID
+                            if (confirmationInput === '我确认注销账号') {
+                                try {
+                                    const result = await deleteAccount(userId);
+                                    if (result.code === 200) {
+                                        alert('账号已注销');
+                                        // 注销成功后可以重定向到登录页或首页
+                                        window.location.href = '../load/login.html';
+                                    } else {
+                                        alert(`注销失败: ${result.message}`);
+                                    }
+                                } catch (error) {
+                                    console.error('Error:', error);
+                                    alert('注销失败，请重试');
+                                }
+                                document.getElementById('delete-modal').style.display = 'none';
+                            } else {
+                                alert('输入错误，请重新输入');
+                            }
+                        }
+                
+                        window.onclick = function(event) {
+                            const modal = document.getElementById('delete-modal');
+                            if (event.target === modal) {
+                                modal.style.display = 'none';
+                            }
+                        }
+                
+                        function logout() {
+                            fetch(`${baseUrl}/auth/logout`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/x-www-form-urlencoded'
+                                }
+                            })
+                                .then(response => {
+                                    if (!response.ok) {
+                                        throw new Error('登出失败');
+                                    }
+                                    return response.json();
+                                })
+                                .then(result => {
+                                    if (result.code === 200) {
+                                        alert('登出成功');
+                                        window.location.href = '../load/login.html'; // 跳转到登录页面
+                                    } else {
+                                        alert(`登出失败: ${result.message}`);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert('登出失败，请重试');
+                                });
+                        }
+                
+                        // 确保DOM完全加载后执行脚本
+                        document.addEventListener("DOMContentLoaded", function() {
+                            // 设置默认光标位置到“个人中心”
+                            var currentWidth = $("#nav li:nth-of-type(7) a").parent("li").width();
+                            var current = $("li:nth-of-type(7) a").position();
+                            $("#nav .slide1").css({ left: +current.left, width: currentWidth });
+                
+                            // 添加事件监听
+                            $("#nav a").on("click", function () {
+                                var position = $(this).parent().position();
+                                var width = $(this).parent().width();
+                                $("#nav .slide1").css({ opacity: 1, left: +position.left, width: width });
+                            });
+                
+                            $("#nav a").on("mouseover", function () {
+                                var position = $(this).parent().position();
+                                var width = $(this).parent().width();
+                                $("#nav .slide2").css({ opacity: 1, left: +position.left, width: width }).addClass("squeeze");
+                            });
+                
+                            $("#nav a").on("mouseout", function () {
+                                $("#nav .slide2").css({ opacity: 0 }).removeClass("squeeze");
+                            });
+                        });
+                    </script>
+                </body>
+                </html>

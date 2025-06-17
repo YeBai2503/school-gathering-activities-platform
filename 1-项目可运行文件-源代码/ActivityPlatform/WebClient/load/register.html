@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"> <!-- 定义网页使用的字符编码 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- 设置视窗宽度，适应不同设备 -->
+    <title>用户注册</title> <!-- 网页标题 -->
+    <link rel="icon" type="image/png" href="../images/N@_E%60%60IY@4_UBX7HDR9Q_V5.jpg" sizes="32x32"> <!-- 设置网页图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> <!-- 引入 FontAwesome 图标库 -->
+    <style>
+        /* 输入框自动填充样式 */
+        input:-webkit-autofill,
+        input:-webkit-autofill:hover,
+        input:-webkit-autofill:focus,
+        input:-webkit-autofill:active {
+            -webkit-box-shadow: 0 0 0 30px white inset !important;
+            -webkit-text-fill-color: #333 !important;
+        }
+
+        /* 页面主体样式 */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-image: url("../images/wallhaven-0wg61x.png"); /* 背景图片 */
+            background-size: cover; /* 背景图片覆盖整个屏幕 */
+            background-position: center; /* 背景图片居中 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* 添加黑色半透明遮罩 */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: -1;
+        }
+
+        /* 容器样式 */
+        .container {
+            background-color: rgba(255, 255, 255, 0.4); /* 更透明的背景颜色 */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* 阴影 */
+            width: 300px;
+            backdrop-filter: blur(6px); /* 添加模糊效果 */
+            border: 2px solid rgba(255, 255, 255, 0.3); /* 添加白色边框 */
+            text-align: center;
+            color: white;
+            margin-bottom: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease; /* 动画效果 */
+            font-family: Arial, sans-serif;
+        }
+
+        /* 标题样式 */
+        .container h1, .container h2 {
+            margin-top: 0; /* 上移标题 */
+            font-size: 35px;
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        /* 容器悬浮效果 */
+        .container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .container a {
+            color: white;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 输入框样式 */
+        .container .input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+            text-align: left; /* 左对齐标签 */
+        }
+
+        .container .input-wrapper i {
+            position: absolute;
+            left: 10px;
+            bottom: 10px; /* 下移图标 */
+            color: #ffffff; /* 图标颜色改为白色 */
+            font-size: 16px;
+            transition: all 0.3s ease; /* 添加动态效果 */
+        }
+
+        .container input[type="text"],
+        .container input[type="password"],
+        .container input[type="email"] {
+            width: 80%;
+            padding: 10px 30px; /* 输入框内边距 */
+            border: none;
+            border-radius: 20px; /* 圆滑边框 */
+            background-color: transparent; /* 雾面玻璃效果 */
+            backdrop-filter: blur(1px);
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+            font-family: Arial, sans-serif;
+        }
+
+        .container input[type="text"]:focus,
+        .container input[type="password"]:focus,
+        .container input[type="email"]:focus {
+            background-color: rgba(255, 255, 255, 0.1); /* 聚焦时背景颜色 */
+            outline: none; /* 去掉默认蓝色边框 */
+        }
+
+        .container .input-wrapper input[type="text"]:focus + i,
+        .container .input-wrapper input[type="password"]:focus + i,
+        .container .input-wrapper input[type="email"]:focus + i {
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+            transform: translateY(-3px); /* 图标动画效果 */
+        }
+
+        /* 检查标记的样式 */
+        .check-mark {
+            margin-left: 230px;
+            right: 50px;
+            bottom: 15px; /* 下移图标 */
+            color: green;
+            display: none;
+        }
+
+        /* 按钮样式 */
+        .container button {
+            width: 100%;
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px;
+            border: none;
+            border-radius: 20px; /* 圆滑边框 */
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+        }
+
+        .container button:hover {
+            background-color: #0056b3; /* 按钮悬停时的颜色 */
+        }
+
+        /* 错误消息样式 */
+        .error {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        /* 切换页面链接样式 */
+        .switch-page {
+            text-align: center;
+            margin-top: 20px;
+            color: white;
+            font-family: Arial, sans-serif;
+            
+        }
+
+        .switch-page a {
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to right, #fa709a 0%, #fee140 100%);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .switch-page a:hover {
+            text-decoration: underline; /* 悬浮时下划线 */
+        }
+
+        /* 头部样式 */
+        .header {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.4);
+            padding: 10px 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(6px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            z-index: 1;
+        }
+
+        .header .logo {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+        }
+
+        .header .logo img {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px;
+        }
+
+        .header .logo h1 {
+            font-size: 24px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 小眼睛图标样式 */
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-wrapper label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .input-wrapper input {
+            width: calc(100% - 40px);
+            padding: 10px;
+            padding-right: 40px;
+            font-size: 16px;
+        }
+
+        .toggle-password {
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #333;
+            margin-left: 255px;
+            margin-top: 11px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 头部内容 -->
+    <div class="header">
+        <a href="#" class="logo">
+            <img src="../images/N@_E``IY@4_UBX7HDR9Q_V5.jpg" alt="Logo"> <!-- 网站Logo -->
+            <h1>校聚活动平台</h1> <!-- 网站标题 -->
+        </a>
+    </div>
+
+    <!-- 注册表单容器 -->
+    <div class="container">
+        <h1>注册</h1> <!-- 注册标题 -->
+        <form id="registerForm">
+            <!-- 用户名输入框 -->
+            <div class="input-wrapper">
+                <label for="registerUsername">用户名：</label>
+                <input type="text" id="registerUsername" name="username" placeholder="请输入用户名" required>
+                <i class="fa fa-user"></i> <!-- 用户名图标 -->
+            </div>
+            <!-- 邮箱输入框 -->
+            <div class="input-wrapper">
+                <label for="registerEmail">邮箱：</label>
+                <input type="email" id="registerEmail" name="email" placeholder="请输入邮箱" required>
+                <i class="fa fa-envelope"></i> <!-- 邮箱图标 -->
+            </div>
+            <!-- 密码输入框 -->
+            <div class="input-wrapper password-container">
+                <label for="registerPassword">密码：</label>
+                <input type="password" id="registerPassword" name="password" placeholder="请输入密码" required>
+                <i class="fa fa-lock"></i> <!-- 密码图标 -->
+                <i class="fas fa-check check-mark" id="passwordMatchCheck"></i> <!-- 检查标记 -->
+                <i class="fa fa-eye-slash toggle-password" id="togglePassword"></i> <!-- 小眼睛图标 -->
+            </div>
+            <!-- 确认密码输入框 -->
+            <div class="input-wrapper password-container">
+                <label for="confirmPassword">确认密码：</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="请再次输入密码" required>
+                <i class="fa fa-lock"></i> <!-- 密码图标 -->
+                <i class="fas fa-check check-mark" id="confirmMatchCheck"></i> <!-- 检查标记 -->
+                <i class="fa fa-eye-slash toggle-password" id="toggleConfirmPassword"></i> <!-- 小眼睛图标 -->
+            </div>
+            <button type="submit">注册</button> <!-- 注册按钮 -->
+            <p class="error" id="registerError"></p> <!-- 错误消息 -->
+        </form>
+        <!-- 切换页面链接 -->
+        <div class="switch-page">
+            <p>已有账户？<a href="login.html">点此登录</a></p> <!-- 登录链接 -->
+        </div>
+    </div>
+
+    <script>
+        // 检查密码匹配函数
+        function checkPasswordsMatch() {
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const passwordMatchCheck = document.getElementById('passwordMatchCheck');
+            const confirmMatchCheck = document.getElementById('confirmMatchCheck');
+
+            if (password && confirmPassword && password === confirmPassword) {
+                passwordMatchCheck.style.display = 'inline';
+                confirmMatchCheck.style.display = 'inline';
+            } else {
+                passwordMatchCheck.style.display = 'none';
+                confirmMatchCheck.style.display = 'none';
+            }
+        }
+
+        // 监听密码输入框的事件
+        document.getElementById('registerPassword').addEventListener('input', function() {
+            checkPasswordsMatch();
+        });
+
+        // 监听确认密码输入框的事件
+        document.getElementById('confirmPassword').addEventListener('input', checkPasswordsMatch);
+
+        // 密码输入框的小眼睛图标点击事件
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordField = document.getElementById('registerPassword');
+            const eyeIcon = document.getElementById('togglePassword');
+            
+            if (passwordField.type === 'password') {
+                passwordField.type = 'text'; // 切换为文本类型
+                eyeIcon.classList.remove('fa-eye-slash'); // 更改图标
+                eyeIcon.classList.add('fa-eye');
+            } else {
+                passwordField.type = 'password'; // 切换为密码类型
+                eyeIcon.classList.remove('fa-eye');
+                eyeIcon.classList.add('fa-eye-slash');
+            }
+        });
+
+        // 确认密码输入框的小眼睛图标点击事件
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            const confirmPasswordField = document.getElementById('confirmPassword');
+            const confirmEyeIcon = document.getElementById('toggleConfirmPassword');
+            
+            if (confirmPasswordField.type === 'password') {
+                confirmPasswordField.type = 'text'; // 切换为文本类型
+                confirmEyeIcon.classList.remove('fa-eye-slash'); // 更改图标
+                confirmEyeIcon.classList.add('fa-eye');
+            } else {
+                confirmPasswordField.type = 'password'; // 切换为密码类型
+                confirmEyeIcon.classList.remove('fa-eye');
+                confirmEyeIcon.classList.add('fa-eye-slash');
+            }
+        });
+
+        // 注册表单提交事件
+        document.getElementById('registerForm').addEventListener('submit', async function(event) {
+            event.preventDefault(); // 防止表单默认提交
+
+            const username = document.getElementById('registerUsername').value;
+            const email = document.getElementById('registerEmail').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            if (password !== confirmPassword) {
+                document.getElementById('registerError').textContent = '密码和确认密码不一致';
+                return;
+            }
+
+            const userData = {
+                username: username,
+                password: password,
+                email: email
+            };
+
+            try {
+                // 发送 POST 请求进行注册
+                const response = await fetch('http://192.168.1.43:8080/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: 0,
+                        username: userData.username,
+                        password: userData.password,
+                        email: userData.email,
+                        nickname: "",
+                        community: "",
+                        sex: "",
+                        pnumber: 0,
+                        university: "",
+                        hobby: "",
+                        permission: 0,
+                        reputation: 0,
+                        profileimageurl: ""
+                    })
+                });
+
+                const result = await response.json();
+
+                if (response.ok && result.code === 200) {
+                    alert('注册成功！');
+                    window.location.href = 'login.html'; // 跳转到登录页面
+                } else if (response.status === 400) {
+                    document.getElementById('registerError').textContent = '用户名已存在';
+                } else {
+                    document.getElementById('registerError').textContent = '用户名已存在';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('registerError').textContent = '注册失败，请稍后再试。';
+            }
+        });
+    </script>
+</body>
+</html>
